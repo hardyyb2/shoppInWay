@@ -1,0 +1,135 @@
+[debug] [2020-04-10T11:40:51.590Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T11:40:51.596Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-04-10T11:40:51.596Z] CLI Version:   7.15.1
+[debug] [2020-04-10T11:40:51.596Z] Platform:      win32
+[debug] [2020-04-10T11:40:51.597Z] Node Version:  v13.9.0
+[debug] [2020-04-10T11:40:51.681Z] Time:          Fri Apr 10 2020 17:10:51 GMT+0530 (India Standard Time)
+[debug] [2020-04-10T11:40:51.681Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T11:40:51.681Z] 
+[debug] [2020-04-10T11:40:51.760Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-10T11:40:51.761Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\project\codeacious
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project.
+[debug] [2020-04-10T11:42:38.691Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T11:42:38.695Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-04-10T11:42:38.695Z] CLI Version:   7.15.1
+[debug] [2020-04-10T11:42:38.695Z] Platform:      win32
+[debug] [2020-04-10T11:42:38.695Z] Node Version:  v13.9.0
+[debug] [2020-04-10T11:42:38.696Z] Time:          Fri Apr 10 2020 17:12:38 GMT+0530 (India Standard Time)
+[debug] [2020-04-10T11:42:38.697Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T11:42:38.697Z] 
+[debug] [2020-04-10T11:42:38.707Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-10T11:42:38.708Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\project\codeacious
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project.
+[debug] [2020-04-10T11:43:19.790Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-04-10T11:43:19.791Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-04-10T11:43:20.271Z] <<< HTTP RESPONSE 200
+[debug] [2020-04-10T11:43:20.393Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects  
+
+[debug] [2020-04-10T11:43:22.404Z] <<< HTTP RESPONSE 400
+[debug] [2020-04-10T11:43:22.405Z] <<< HTTP RESPONSE BODY
+[debug] [2020-04-10T11:43:22.409Z] HTTP Error: 400, field [project_id] has issue [project_id contains invalid characters]
+[debug] [2020-04-10T11:43:23.421Z] FirebaseError: HTTP Error: 400, field [project_id] has issue [project_id contains invalid characters]
+    at module.exports (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:321:20)
+    at Request.EventEmitter.emit (domain.js:485:12)
+    at Request.<anonymous> (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1154:10)
+    at Request.emit (events.js:321:20)
+    at Request.EventEmitter.emit (domain.js:485:12)
+    at IncomingMessage.<anonymous> (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1076:12)
+    at Object.onceWrapper (events.js:427:28)
+    at IncomingMessage.emit (events.js:333:22)
+    at IncomingMessage.EventEmitter.emit (domain.js:485:12)
+    at endReadableNT (_stream_readable.js:1201:12)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)
+[error] 
+[error] Error: Failed to create Google Cloud project. See firebase-debug.log for more info.
+[debug] [2020-04-10T11:44:31.417Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T11:44:31.421Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-04-10T11:44:31.421Z] CLI Version:   7.15.1
+[debug] [2020-04-10T11:44:31.421Z] Platform:      win32
+[debug] [2020-04-10T11:44:31.421Z] Node Version:  v13.9.0
+[debug] [2020-04-10T11:44:31.422Z] Time:          Fri Apr 10 2020 17:14:31 GMT+0530 (India Standard Time)
+[debug] [2020-04-10T11:44:31.422Z] ----------------------------------------------------------------------
+[debug] [2020-04-10T11:44:31.423Z] 
+[debug] [2020-04-10T11:44:31.433Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-10T11:44:31.433Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\project\codeacious
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  If you want to create a project in a Google Cloud organization or folder, please use "firebase projects:create" instead, and return to this command when you've created the project.
+[debug] [2020-04-10T11:45:17.225Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects  
+
+[debug] [2020-04-10T11:45:19.864Z] <<< HTTP RESPONSE 400
+[debug] [2020-04-10T11:45:19.866Z] <<< HTTP RESPONSE BODY
+[debug] [2020-04-10T11:45:19.872Z] HTTP Error: 400, field [project_id] has issue [project_id contains invalid characters]
+[debug] [2020-04-10T11:45:20.566Z] FirebaseError: HTTP Error: 400, field [project_id] has issue [project_id contains invalid characters]
+    at module.exports (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:321:20)
+    at Request.EventEmitter.emit (domain.js:485:12)
+    at Request.<anonymous> (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1154:10)
+    at Request.emit (events.js:321:20)
+    at Request.EventEmitter.emit (domain.js:485:12)
+    at IncomingMessage.<anonymous> (C:\Users\hardyyb\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1076:12)
+    at Object.onceWrapper (events.js:427:28)
+    at IncomingMessage.emit (events.js:333:22)
+    at IncomingMessage.EventEmitter.emit (domain.js:485:12)
+    at endReadableNT (_stream_readable.js:1201:12)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)
+[error] 
+[error] Error: Failed to create Google Cloud project. See firebase-debug.log for more info.
