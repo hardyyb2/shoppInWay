@@ -7,25 +7,70 @@ import NavBar from './components/NavBar/NavBar'
 import BuyNow from './components/BuyNow/BuyNow'
 import OrderSuccess from './components/OrderSuccess/OrderSuccess'
 
-import { Route, Switch, BrowserRouter } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
-function App() {
+const App = () => {
   return (
     <div className="App" style={{ background: '#121212' }}>
       <BrowserRouter>
         <NavBar />
         <Switch>
-          <Route key="ordersuccess" path='/ordersuccess' component={OrderSuccess} />
-          <Route key="buynow" path='/buynow' component={BuyNow} />
-          <Route key="details" path='/details' component={Details} />
-          <Route key="cart" path='/cart' component={Cart} />
-          <Route key="home" path='/' component={HomePage} />
+          <ProtectedRoute
+            exact
+            key='ordersuccess'
+            path="/ordersuccess"
+            component={OrderSuccess}
+            isAuthenticated={isAuthenticated}
+            isVerifying={isVerifying}
+          />
+          <ProtectedRoute
+            exact
+            key='buynow'
+            path="/buynow"
+            component={BuyNow}
+            isAuthenticated={isAuthenticated}
+            isVerifying={isVerifying}
+          />
+          <ProtectedRoute
+            exact
+            key='details'
+            path="/details"
+            component={Details}
+            isAuthenticated={isAuthenticated}
+            isVerifying={isVerifying}
+          />
+
+          <ProtectedRoute
+            exact
+            key='cart'
+            path="/cart"
+            component={Cart}
+            isAuthenticated={isAuthenticated}
+            isVerifying={isVerifying}
+          />
+
+          <ProtectedRoute
+            exact
+            key='cart'
+            path='/'
+            component={HomePage}
+            isAuthenticated={isAuthenticated}
+            isVerifying={isVerifying}
+          />
+          <Route key="login" path='/login' component={Login} />
         </Switch>
       </BrowserRouter>
     </div>
   );
 }
-
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    isVerifying: state.auth.isVerifying
+  };
+}
+export default connect(mapStateToProps)(App);
