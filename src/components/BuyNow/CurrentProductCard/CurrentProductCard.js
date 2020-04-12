@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { connect } from 'react-redux'
 
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         padding: theme.spacing(2),
@@ -60,39 +61,42 @@ const useStyles = makeStyles((theme) => ({
 const CurrentProductCard = props => {
 
     const classes = useStyles()
-    return (
-        <Paper className={classes.paper} >
-            <Grid container >
-                <Grid item style={{ margin: 'auto' }}>
-                    <ButtonBase className={classes.image}>
-                        <img className={classes.img} alt="complex" src={props.currentBuyProduct.product_image} />
-                    </ButtonBase>
-                </Grid>
-                <Grid item xs={12} sm container>
-                    <Grid item xs container direction="column" >
-                        <Grid item xs>
-                            <Typography gutterBottom variant="subtitle1" className={classes.title}>
-                                {props.currentBuyProduct.product_title}
-                            </Typography>
-                            <Typography variant="body2" gutterBottom className={classes.subtitle}>
-                                {props.currentBuyProduct.product_subtitle}
-                            </Typography>
+    if (props.currentBuyProduct) {
+        return (
+            <Paper className={classes.paper} >
+                <Grid container >
+                    <Grid item style={{ margin: 'auto' }}>
+                        <ButtonBase className={classes.image}>
+                            <img className={classes.img} alt="complex" src={props.currentBuyProduct.product_image} />
+                        </ButtonBase>
+                    </Grid>
+                    <Grid item xs={12} sm container>
+                        <Grid item xs container direction="column" >
+                            <Grid item xs>
+                                <Typography gutterBottom variant="subtitle1" className={classes.title}>
+                                    {props.currentBuyProduct.product_title}
+                                </Typography>
+                                <Typography variant="body2" gutterBottom className={classes.subtitle}>
+                                    {props.currentBuyProduct.product_subtitle}
+                                </Typography>
 
-                            <Typography variant="body2" color="textSecondary" className={classes.price}>
-                                ${props.currentBuyProduct.product_price.toFixed(2)}
-                            </Typography>
+                                <Typography variant="body2" color="textSecondary" className={classes.price}>
+                                    ${props.currentBuyProduct.product_price.toFixed(2)}
+                                </Typography>
+                            </Grid>
+
                         </Grid>
-
                     </Grid>
                 </Grid>
-            </Grid>
-        </Paper>
-    )
+            </Paper>
+        )
+    }
+    else return 'No Products here'
 }
 
 const mapStateToProps = state => {
     return {
-        currentBuyProduct: state.currentBuyProduct
+        currentBuyProduct: state.products.currentBuyProduct
     }
 }
 const mapDispatchToProps = dispatch => {

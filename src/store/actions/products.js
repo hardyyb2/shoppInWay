@@ -37,6 +37,20 @@ const receiveCartProducts = products => {
     }
 }
 
+const receiveCurrentBuyProduct = product => {
+    return {
+        type: SET_CURRENT_BUY_PRODUCT,
+        product
+    }
+}
+
+const receiveDetailProduct = product => {
+    return {
+        type: SET_DETAIL_PRODUCT,
+        product
+    }
+}
+
 
 export const getProducts = () => dispatch => {
     dispatch(requestProducts())
@@ -78,10 +92,38 @@ export const getCartProducts = (cart) => dispatch => {
                     }
                 })
                 .catch(err => {
-                    console.log(err)
+                    dispatch(productsError())
                 })
         })
     }
 
+}
 
+export const getCurrentBuyProduct = productId => dispatch => {
+    dispatch(requestProducts)
+    console.log(productId)
+    db.collection('products')
+        .doc(productId)
+        .get()
+        .then(res => {
+            dispatch(receiveCurrentBuyProduct({ ...res.data(), ['id']: productId }))
+        })
+        .catch(err => {
+            dispatch(productsError)
+        })
+
+}
+
+export const getDetailProduct = productId => dispatch => {
+    dispatch(requestProducts)
+    console.log(productId)
+    db.collection('products')
+        .doc(productId)
+        .get()
+        .then(res => {
+            dispatch(receiveDetailProduct({ ...res.data(), ['id']: productId }))
+        })
+        .catch(err => {
+            dispatch(productsError)
+        })
 }

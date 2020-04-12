@@ -1,22 +1,23 @@
-import React, { useState, useEffect, Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
-    Grid, makeStyles,
+    Grid,
     Typography, Paper, ButtonBase,
-    Button, IconButton
+    Button,
 } from '@material-ui/core'
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core/styles'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ImageModal from '../Modal/ImageModal'
 
-import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux'
-import { SET_CURRENT_BUY_PRODUCT } from '../../store/actions/index'
+import { SET_CURRENT_BUY_PRODUCT, SET_CART } from '../../store/actions/index'
+import { useHistory } from 'react-router-dom'
+
+import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
 const styles = theme => ({
     root: {
         flexGrow: 1,
-        marginTop: '20px',
     },
     paper: {
         padding: '10px',
@@ -62,157 +63,153 @@ const styles = theme => ({
     }
 })
 
-class Details extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            cartProducts: [],
-            isAddedToCart: false,
-            showImage: false
-        }
-    }
-    checkInCart = productId => {
-        console.log('product id ', productId, this.state.cartProducts)
-        if (this.state.cartProducts.indexOf(productId.toString()) !== -1) {
-            console.log('added to cRT')
-            this.setState({ isAddedToCart: true })
+const Details = props => {
+
+    const { classes } = props
+    const history = useHistory()
+
+    const [isAddedToCart, setIsAddedToCart] = useState(false)
+    const [showImage, setShowImage] = useState(false)
+
+
+
+    const checkInCart = productId => {
+        if (props.cart.indexOf(productId.toString()) !== -1) {
+            setIsAddedToCart(true)
         } else {
-            console.log('not addeds')
-            this.setState({ isAddedToCart: false })
+            setIsAddedToCart(false)
         }
-
     }
 
-    handleAddToCart = productId => {
-        const cart = JSON.parse(localStorage.getItem('cartProducts'))
-        if (cart.indexOf(productId.toString()) === -1) {
-            cart.push(productId.toString())
+    useEffect(() => {
+        checkInCart(props.currentDetailProduct.id)
+    }, [props.cart])
+
+    const handleAddToCart = productId => {
+        let newCart = [...props.cart]
+        console.log(productId)
+        if (props.cart.indexOf(productId.toString()) === -1) {
+            newCart.push(productId.toString())
         } else {
-            cart.splice(cart.indexOf(productId.toString()), 1)
+            newCart.splice(newCart.indexOf(productId.toString()), 1)
         }
-        localStorage.setItem('cartProducts', JSON.stringify(cart))
-        this.setState({ cartProducts: cart })
-        this.checkInCart(this.props.currentDetailProduct.id)
+        props.setCart(newCart)
     }
 
 
-    componentDidMount() {
-        //set cart products
-        console.log('ran')
-        if (JSON.parse(localStorage.getItem('cartProducts')).length !== 0) {
-            const cart = JSON.parse(localStorage.getItem('cartProducts'))
-            this.setState({ cartProducts: cart }, () => {
-                this.checkInCart(this.props.currentDetailProduct.id)
-            })
-        }
-    }
-
-    render() {
-        const { classes } = this.props
+    if (props.currentDetailProduct) {
         return (
-
-            <Grid container style={{ marginTop: '40px', background: '#181a1b', minHeight: '100vh', alignItems: 'center' }} >
-                <div className={classes.root}>
-                    <Paper className={classes.paper}>
-                        <Grid container justify="center" style={{ alignItems: 'center' }} spacing={2}>
-                            <Grid item>
-                                <ButtonBase className={classes.image} onClick={() => this.setState({ showImage: true })}>
-                                    <img className={classes.img} alt="complex" src={this.props.currentDetailProduct.product_image} />
-                                </ButtonBase>
-                            </Grid>
-                            <Grid item xs={12} sm container>
-                                <Grid item xs container direction="column">
-                                    <Grid item xs>
-                                        <Typography gutterBottom variant="subtitle1" className={classes.title}>
-                                            {this.props.currentDetailProduct.product_title}
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom className={classes.subtitle}>
-                                            {this.props.currentDetailProduct.product_subtitle}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" className={classes.desc}>
-                                            {this.props.currentDetailProduct.product_description}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" className={classes.price}>
-                                            ${this.props.currentDetailProduct.product_price.toFixed(2)}
-                                        </Typography>
-
-                                    </Grid>
-                                    <Grid item xs container spacing={3} direction="row" justify="center">
-                                        <Grid item>
-                                            <Button
-                                                aria-label="add to favorites"
-                                                onClick={() => this.handleAddToCart(this.props.currentDetailProduct.id)}
-                                                style={{
-                                                    fontWeight: 'bold',
-                                                    padding: '10px',
-                                                    background: ((this.state.isAddedToCart) ? '#f5f5f5' : 'rgba(59,75,105,0.8)'),
-                                                    color: ((this.state.isAddedToCart) ? 'rgba(59,75,105,0.8)' : '#f5f5f5'),
-                                                }}
-                                                startIcon={<ShoppingCartIcon />}
-                                            >
-                                                {this.state.isAddedToCart ? 'Remove' : 'Add To Cart'}
-                                            </Button>
-                                        </Grid>
-                                        <Grid item>
-                                            <Button
-                                                aria-label="add to favorites"
-                                                startIcon={<AttachMoneyIcon />}
-                                                variant="contained"
-                                                style={{
-                                                    fontWeight: 'bold',
-                                                    padding: '10px',
-                                                    background: '#c51162',
-                                                    color: 'rgba(255,255,255,0.9)'
-                                                }}
-                                                onClick={() => {
-                                                    this.props.setCurrentBuyProduct(this.props.currentDetailProduct)
-                                                    this.props.history.push('/buynow')
-                                                }}
-                                            >
-                                                Buy Now
-                                      </Button>
-                                        </Grid>
-                                    </Grid>
+            <MiniDrawer>
+                <Grid container style={{
+                    background: '#181a1b', alignItems: 'center'
+                }} >
+                    <div className={classes.root
+                    } >
+                        <Paper className={classes.paper}>
+                            <Grid container justify="center" style={{ alignItems: 'center' }} spacing={2}>
+                                <Grid item>
+                                    <ButtonBase className={classes.image} onClick={() => setShowImage(true)}>
+                                        <img className={classes.img} alt="complex" src={props.currentDetailProduct.product_image} />
+                                    </ButtonBase>
                                 </Grid>
+                                <Grid item xs={12} sm container>
+                                    <Grid item xs container direction="column">
+                                        <Grid item xs>
+                                            <Typography gutterBottom variant="subtitle1" className={classes.title}>
+                                                {props.currentDetailProduct.product_title}
+                                            </Typography>
+                                            <Typography variant="body2" gutterBottom className={classes.subtitle}>
+                                                {props.currentDetailProduct.product_subtitle}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" className={classes.desc}>
+                                                {props.currentDetailProduct.product_description}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" className={classes.price}>
+                                                ${props.currentDetailProduct.product_price.toFixed(2)}
+                                            </Typography>
 
+                                        </Grid>
+                                        <Grid item xs container spacing={3} direction="row" justify="center">
+                                            <Grid item>
+                                                <Button
+                                                    aria-label="add to favorites"
+                                                    onClick={() => handleAddToCart(props.currentDetailProduct.id)}
+                                                    style={{
+                                                        fontWeight: 'bold',
+                                                        padding: '10px',
+                                                        background: ((isAddedToCart) ? '#f5f5f5' : 'rgba(59,75,105,0.8)'),
+                                                        color: ((isAddedToCart) ? 'rgba(59,75,105,0.8)' : '#f5f5f5'),
+                                                    }}
+                                                    startIcon={<ShoppingCartIcon />}
+                                                >
+                                                    {isAddedToCart ? 'Remove' : 'Add To Cart'}
+                                                </Button>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button
+                                                    aria-label="add to favorites"
+                                                    startIcon={<AttachMoneyIcon />}
+                                                    variant="contained"
+                                                    style={{
+                                                        fontWeight: 'bold',
+                                                        padding: '10px',
+                                                        background: '#c51162',
+                                                        color: 'rgba(255,255,255,0.9)'
+                                                    }}
+                                                    onClick={() => {
+                                                        props.setCurrentBuyProduct(props.currentDetailProduct)
+                                                        history.push('/buynow')
+                                                    }}
+                                                >
+                                                    Buy Now
+                                      </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Paper>
-                    {
-                        this.state.showImage ?
-                            (
-                                <ImageModal
-                                    handleClose={
-                                        () => { this.setState({ showImage: false }) }
-                                    } >
+                        </Paper>
+                        {
+                            showImage ?
+                                (
+                                    <ImageModal
+                                        handleClose={
+                                            () => { setShowImage(false) }
+                                        } >
 
-                                    <img
-                                        className={classes.img}
-                                        alt="complex"
-                                        src={this.props.currentDetailProduct.product_image}
-                                    />
-                                </ImageModal>
-                            )
-                            :
-                            null
-                    }
-                </div>
-            </Grid>
+                                        <img
+                                            className={classes.img}
+                                            alt="complex"
+                                            src={props.currentDetailProduct.product_image}
+                                        />
+                                    </ImageModal>
+                                )
+                                :
+                                null
+                        }
+                    </div>
+                </Grid>
+            </MiniDrawer >
         )
+    } else {
+        return 'no detail products'
     }
-
 }
+
 
 const mapStateToProps = state => {
     return {
-        currentDetailProduct: state.currentDetailProduct
+        currentDetailProduct: state.products.currentDetailProduct,
+        cart: state.products.cart
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        setCart: (cart) => dispatch({ type: SET_CART, cart: cart }),
         setCurrentBuyProduct: (product) => dispatch({ type: SET_CURRENT_BUY_PRODUCT, product: product })
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(Details)))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Details))

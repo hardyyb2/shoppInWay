@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import LazyLoad from 'react-lazyload'
 import { Grid } from '@material-ui/core'
 import Card from './Card/Card'
@@ -9,7 +9,12 @@ import Spinner from '../../UI/Spinner/Spinner'
 import { products } from '../../dump/products'
 import { useHistory } from 'react-router-dom'
 
-import { SET_CURRENT_BUY_PRODUCT, SET_DETAIL_PRODUCT, SET_CART, getCartProducts } from '../../store/actions/index'
+import {
+    SET_CART,
+    getCartProducts,
+    getCurrentBuyProduct,
+    getDetailProduct
+} from '../../store/actions/index'
 
 const Cards = props => {
     const history = useHistory()
@@ -28,8 +33,7 @@ const Cards = props => {
     }
 
     const showMoreDetails = productId => {
-        const product = products.find(product => product.id === productId)
-        props.setDetailProduct(product)
+        props.setDetailProduct(productId)
         history.push('/details')
     }
 
@@ -41,8 +45,7 @@ const Cards = props => {
     }
 
     const handleBuyProduct = productId => {
-        const product = products.find(product => product.id === productId)
-        props.setCurrentBuyProduct(product)
+        props.setCurrentBuyProduct(productId)
         history.push('/buynow')
     }
 
@@ -98,8 +101,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setCart: (cart) => dispatch({ type: SET_CART, cart: cart }),
-        setDetailProduct: (product) => dispatch({ type: SET_DETAIL_PRODUCT, product: product }),
-        setCurrentBuyProduct: (product) => dispatch({ type: SET_CURRENT_BUY_PRODUCT, product: product }),
+        setDetailProduct: (productId) => dispatch(getDetailProduct(productId)),
+        setCurrentBuyProduct: (productId) => dispatch(getCurrentBuyProduct(productId)),
         getCartProducts: (cart) => dispatch(getCartProducts(cart))
 
     }
