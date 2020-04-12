@@ -29,20 +29,25 @@ const useStyles = makeStyles(theme => ({
 
         },
 
-        ['@media (max-width: 650px)']: {
+        ['@media (max-width: 720px)']: {
             width: '400px',
             minWidth: '400px',
 
         },
-        ['@media (max-width: 450px)']: {
-            width: '350px',
-            minWidth: '350px',
+        ['@media (max-width: 500px)']: {
+            width: '330px',
+            minWidth: '330px',
 
         },
-        ['@media (max-width: 350px)']: {
+
+        ['@media (max-width: 450px)']: {
             width: '300px',
             minWidth: '300px',
 
+        },
+        ['@media (max-width: 350px)']: {
+            width: '250px',
+            minWidth: '250px',
         }
     },
     media: {

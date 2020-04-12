@@ -3,8 +3,8 @@ import { Grid } from '@material-ui/core'
 
 import NavBar from './NavBar/NavBar'
 import Cards from './Cards/Cards'
+import MiniDrawer from '../UI/MiniDrawer/MiniDrawer'
 import { products } from '../dump/products'
-
 
 const HomePage = props => {
 
@@ -17,7 +17,9 @@ const HomePage = props => {
 
     return (
         <Grid container >
-            <Cards products={products} />
+            <MiniDrawer >
+                <Cards products={products} />
+            </MiniDrawer>
         </Grid>
     )
 

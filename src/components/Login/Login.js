@@ -7,25 +7,38 @@ import {
 import { connect } from "react-redux"
 import { Redirect } from "react-router-dom"
 import { loginUser } from "../../store/actions/index"
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
+
     root: {
         display: 'flex',
         flexDirection: 'column',
-        width: '50%',
+        width: '90%',
+        minHeight: '100vh',
+        margin: 'auto',
+        background: '#1f1f1f',
         justifyContent: 'center',
         alignItems: 'center',
-        ['@media (max-width:780px)']: {
-            width: '90%'
-        }
+
     },
     container: {
         borderRadius: '10px',
-    }
+    },
+    input: {
+        color: '#f5f5f5',
+        borderBottom: '1px solid #f5f5f5',
+
+    },
+    label: {
+        color: '#f5f5f5 !important',
+    },
+
 })
 
 const Login = props => {
     const classes = useStyles()
+    const history = useHistory()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -39,8 +52,18 @@ const Login = props => {
     const login = (
         <Paper elevate={5} className={classes.root}>
             <Grid container direction="column" className={classes.container}>
-                <AppBar position="static" style={{ padding: '20px', fontSize: '2rem' }}>
-                    Login
+                <AppBar position="static"
+                    style={{
+                        padding: '20px',
+                        fontSize: '2.4rem',
+                        background: '#1d1d1d',
+                        fontFamily: 'monotype corsiva'
+                    }}
+                    onClick={
+                        () => history.replace('/index')
+                    }
+                >
+                    ShoppInWay
                 </AppBar>
                 <Grid item style={{ margin: '10px', padding: '10px' }}>
                     <TextField
@@ -50,7 +73,15 @@ const Login = props => {
                         label="Email"
                         error={props.loginError}
                         helperText={(props.loginError) ? 'Email or password incorrect' : ' '}
-                        placeholder="Email..." />
+                        placeholder="Email..."
+                        InputProps={{
+                            className: classes.input,
+
+                        }}
+                        InputLabelProps={{
+                            className: classes.label,
+                        }}
+                    />
                 </Grid>
                 <Grid item style={{ margin: '10px', padding: '10px' }}>
                     <TextField
@@ -62,17 +93,26 @@ const Login = props => {
                         value={password}
                         id="login-password"
                         label="Password"
-                        placeholder="Password..." />
+                        placeholder="Password..."
+                        InputProps={{
+                            className: classes.input,
+
+                        }}
+                        InputLabelProps={{
+                            className: classes.label,
+                        }}
+                    />
                 </Grid>
                 <Grid item style={{ margin: '10px' }}>
                     <Button
                         fullWidth
                         variant="contained"
-                        color="secondary"
                         size="large"
                         onClick={handleLogin}
                         style={{
-                            background: ((props.isLoggingIn) ? '#c51162' : '')
+                            background: ((props.isLoggingIn) ? '#1f2f2f' : '#1f1f2f'),
+                            color: '#f5f5f5',
+                            fontSize: '1.2rem'
                         }}
                     >
                         {
@@ -80,12 +120,27 @@ const Login = props => {
                         }
                     </Button>
                 </Grid>
+                <Grid item style={{ margin: '10px' }}>
+                    <Button
+                        fullWidth
+                        size="small"
+                        onClick={
+                            () => history.push('/signup')
+                        }
+                        style={{
+                            color: '#f5f5f5',
+                            textTransform: 'lowercase'
+                        }}
+                    >
+                        Sign up instead
+                    </Button>
+                </Grid>
             </Grid>
         </Paper>
     )
 
     if (props.isAuthenticated && props.user !== null) {
-        return <Redirect to="/home" />
+        return <Redirect to="/" />
     }
     else {
         return login

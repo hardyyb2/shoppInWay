@@ -54,7 +54,7 @@ const CartProducts = props => {
                 {
                     notFound ?
                         <Grid container justify="center"
-                            style={{ fontSize: '1.5rem' }} >
+                            style={{ fontSize: '1.5rem', color: '#f5f5f5' }} >
                             No CartProducts Yet
                     </Grid>
                         :

@@ -1,5 +1,5 @@
-import { myFirebase } from "../firebase/firebase"
-import { db } from '../firebase/firebase'
+import { myFirebase } from "../../firebase/firebase"
+import { db } from '../../firebase/firebase'
 
 //login
 export const LOGIN_REQUEST = "LOGIN_REQUEST"

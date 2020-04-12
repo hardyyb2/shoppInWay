@@ -2,14 +2,15 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDRZF3cr4txcEaNfBLlw1UKwh4oMBmQ-zs",
+    apiKey: process.env.REACT_APP_API_KEY,
     authDomain: "shoppintoday-ea185.firebaseapp.com",
     databaseURL: "https://shoppintoday-ea185.firebaseio.com",
     projectId: "shoppintoday-ea185",
     storageBucket: "shoppintoday-ea185.appspot.com",
-    messagingSenderId: "439885958955",
-    appId: "1:439885958955:web:0323593df300fdb2a2ff6e",
+    messagingSenderId: process.env.REACT_APP_MESSAGE_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID,
     measurementId: "G-82WBFSZL6J"
 };
 

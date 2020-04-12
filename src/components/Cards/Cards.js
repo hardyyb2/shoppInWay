@@ -60,7 +60,7 @@ const Cards = props => {
         <>
 
             <Grid container direction="row" justify="space-evenly"
-                style={{ marginTop: '80px' }}
+                style={{ marginTop: '10px' }}
             >
                 {
                     props.products ?

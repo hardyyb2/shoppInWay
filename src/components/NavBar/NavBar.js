@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -27,6 +27,15 @@ export default function NavBar() {
     const history = useHistory()
     const location = useLocation()
 
+    const [showCart, setShowCart] = useState(false)
+
+    useEffect(() => {
+        if (location.pathname.trim() === '/index' || location.pathname.trim() === '/login' || location.pathname.trim() === '/signup') {
+            setShowCart(false)
+        } else {
+            setShowCart(true)
+        }
+    })
 
     const checkLocation = () => {
         if (location.pathname.trim() === '/cart') {
@@ -36,7 +45,7 @@ export default function NavBar() {
         }
     }
 
-    return (
+    let navbar = (
         <div className={classes.root}>
             <AppBar position="fixed" style={{ background: '#1f1f1f' }}>
                 <Toolbar>
@@ -50,7 +59,7 @@ export default function NavBar() {
                         }}
                     >
                         ShopPinWay
-                    </Typography>
+                </Typography>
                     <Button color="inherit"
                         startIcon={<ShoppingCartIcon />}
                         onClick={() => checkLocation()}
@@ -58,5 +67,12 @@ export default function NavBar() {
                 </Toolbar>
             </AppBar>
         </div>
-    );
+
+    )
+
+    if (showCart) {
+        return navbar
+    } else {
+        return null
+    }
 }
