@@ -11,7 +11,7 @@ import ImageModal from '../Modal/ImageModal'
 
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux'
-import * as actionTypes from '../../store/actions'
+import { SET_CURRENT_BUY_PRODUCT } from '../../store/actions/index'
 
 const styles = theme => ({
     root: {
@@ -211,7 +211,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setCurrentBuyProduct: (product) => dispatch({ type: actionTypes.SET_CURRENT_BUY_PRODUCT, product: product })
+        setCurrentBuyProduct: (product) => dispatch({ type: SET_CURRENT_BUY_PRODUCT, product: product })
     }
 }
 

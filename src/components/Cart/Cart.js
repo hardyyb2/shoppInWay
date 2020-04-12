@@ -3,53 +3,37 @@ import { Grid } from '@material-ui/core'
 import Cards from '../Cards/Cards'
 
 import Spinner from '../../UI/Spinner/Spinner'
-import { products } from '../../dump/products'
 
-import NavBar from '../NavBar/NavBar'
+import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
+import { connect } from 'react-redux'
+
+import { db } from '../../firebase/firebase'
+
+import { SET_CART, SET_LOCAL_CART_PRODUCTS } from '../../store/actions/index'
+import { getCartProducts } from '../../store/actions/index'
 
 const CartProducts = props => {
     const [cart, setCart] = useState([])
     const [notFound, setNotFound] = useState(false)
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (localStorage.getItem('cartProducts') !== null) {
-                const data = JSON.parse(localStorage.getItem('cartProducts'))
-                const productIdArray = await data.map(productId => parseInt(productId))
-                const resultantArray = products.filter(product => {
-                    if (productIdArray.indexOf(product.id) !== -1) {
-                        return product
-                    }
-                })
-                let cartData = []
-                if (resultantArray.length === 0) {
-                    setNotFound(true)
-                } else {
-                    setNotFound(false)
-                    resultantArray.map(product =>
-                        cartData.push(product)
-                    )
-                    setCart(cartData)
-                }
+        props.getCartProducts(props.cart)
 
-            }
-        }
-        fetchData()
     }, [])
 
     return (
-        <>
+        <MiniDrawer>
             <Grid container>
                 {
-                    cart ?
+                    props.localCartProducts ?
                         (
                             <Cards
-                                products={cart}
+                                products={props.localCartProducts}
                             />
                         )
                         :
-                        <Spinner />
+                        'no dsakdkjansdhjashdas'
                 }
                 {
                     notFound ?
@@ -61,9 +45,22 @@ const CartProducts = props => {
                         null
                 }
             </Grid>
-        </>
+        </MiniDrawer>
     )
 
 }
 
-export default CartProducts
+const mapStateToProps = state => {
+    return {
+        cart: state.products.cart,
+        localCartProducts: state.products.localCartProducts
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        setCart: (cart) => dispatch({ type: SET_CART, cart: cart }),
+        getCartProducts: (cart) => dispatch(getCartProducts(cart))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartProducts)

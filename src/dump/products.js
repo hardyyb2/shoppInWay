@@ -1,3 +1,4 @@
+import { db } from '../firebase/firebase'
 
 export const products = [
     {
@@ -44,3 +45,13 @@ export const products = [
         "product_price": 20,
         "product_rating": 4.8
     }]
+
+
+// products.forEach(product => {
+//     db.collection("products").add(product)
+//         .then(res => {
+//             console.log(res)
+//         }).catch(err => {
+//             console.log(err)
+//         })
+// }) 

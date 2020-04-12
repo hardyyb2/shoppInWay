@@ -20,6 +20,9 @@ const useStyles = makeStyles({
         background: '#1f1f1f',
         justifyContent: 'center',
         alignItems: 'center',
+        ['@media (min-width:760px)']: {
+            width: '60%'
+        }
 
     },
     container: {

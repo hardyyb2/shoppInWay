@@ -7,34 +7,24 @@ import { connect } from 'react-redux'
 
 import Spinner from '../../UI/Spinner/Spinner'
 import { products } from '../../dump/products'
-import * as actionTypes from '../../store/actions'
 import { useHistory } from 'react-router-dom'
 
+import { SET_CURRENT_BUY_PRODUCT, SET_DETAIL_PRODUCT, SET_CART, getCartProducts } from '../../store/actions/index'
+
 const Cards = props => {
-    const [cartProducts, setcartProducts] = useState([])
     const history = useHistory()
 
     useEffect(() => {
-        //clear details product
-        // if (props.currentDetailProduct !== null) {
-        //     props.setDetailProduct(null)
-        // }
-        //set cart products
-        if (localStorage.getItem('cartProducts') !== null) {
-            const cart = JSON.parse(localStorage.getItem('cartProducts'))
-            setcartProducts(cart)
-        }
     }, [])
 
     const handleAddToCart = productId => {
-        const cart = JSON.parse(localStorage.getItem('cartProducts'))
+        const cart = [...props.cart]
         if (cart.indexOf(productId.toString()) === -1) {
             cart.push(productId.toString())
         } else {
             cart.splice(cart.indexOf(productId.toString()), 1)
         }
-        localStorage.setItem('cartProducts', JSON.stringify(cart))
-        setcartProducts(cart)
+        props.setCart(cart)
     }
 
     const showMoreDetails = productId => {
@@ -44,7 +34,7 @@ const Cards = props => {
     }
 
     const checkInCart = productId => {
-        if (cartProducts.indexOf(productId.toString()) !== -1) {
+        if (props.cart.indexOf(productId.toString()) !== -1) {
             return true
         }
         return false
@@ -100,13 +90,17 @@ const Cards = props => {
 
 const mapStateToProps = state => {
     return {
-        currentDetailProduct: state.currentDetailProduct
+        currentDetailProduct: state.products.currentDetailProduct,
+        cart: state.products.cart,
+        loading: state.products.loading
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        setDetailProduct: (product) => dispatch({ type: actionTypes.SET_DETAIL_PRODUCT, product: product }),
-        setCurrentBuyProduct: (product) => dispatch({ type: actionTypes.SET_CURRENT_BUY_PRODUCT, product: product })
+        setCart: (cart) => dispatch({ type: SET_CART, cart: cart }),
+        setDetailProduct: (product) => dispatch({ type: SET_DETAIL_PRODUCT, product: product }),
+        setCurrentBuyProduct: (product) => dispatch({ type: SET_CURRENT_BUY_PRODUCT, product: product }),
+        getCartProducts: (cart) => dispatch(getCartProducts(cart))
 
     }
 }

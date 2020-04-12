@@ -15,13 +15,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-
+import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 
+import { logoutUser } from '../../store/actions/index'
+import Logout from '../../Logout/Logout'
 
 const drawerWidth = 240
 
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        background: '#1d1d2d',
+        background: '#1f1f2f',
         boxShadow: '0px 0px 12px 0px #121212'
     },
     drawerClose: {
@@ -103,6 +104,7 @@ const MiniDrawer = props => {
     const history = useHistory()
     const location = useLocation()
 
+    const [showLogout, setShowLogout] = React.useState(false)
     const [open, setOpen] = React.useState(false)
 
     const handleDrawerOpen = () => {
@@ -180,30 +182,56 @@ const MiniDrawer = props => {
                     </IconButton>
                 </div>
                 <List className={classes.list}>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon style={{
-                                color: '#f5f5f5'
-                            }}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
-                <List className={classes.list}>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text} >
-                            <ListItemIcon style={{ color: '#f5f5f5' }}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+
+                    {/* Open cart */}
+                    <ListItem button key="cart"
+                        onClick={() => {
+                            history.push('/cart')
+                        }}
+                    >
+                        <ListItemIcon style={{
+                            color: '#f5f5f5'
+                        }}>
+                            <ShoppingCartIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="My Cart" />
+                    </ListItem>
+
+
+                    {/* logout user button */}
+                    <ListItem button key="logout"
+                        onClick={() => {
+                            setShowLogout(true)
+                        }}
+                    >
+
+                        <ListItemIcon style={{
+                            color: '#f5f5f5'
+                        }}>
+                            <ExitToAppIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItem>
+
                 </List>
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
                 {props.children}
+                {
+                    showLogout ?
+                        <Logout handleClose={() => setShowLogout(false)} />
+                        :
+                        null
+                }
             </main>
         </div>
     )
 }
 
-export default MiniDrawer
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+}
+
+export default connect(null, mapDispatchToProps)(MiniDrawer)

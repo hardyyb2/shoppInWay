@@ -5,6 +5,7 @@ import {
 
 } from '@material-ui/core'
 
+
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { signupUser } from "../../store/actions/";
@@ -21,6 +22,11 @@ const useStyles = makeStyles({
         background: '#1f1f1f',
         justifyContent: 'center',
         alignItems: 'center',
+
+        ['@media (min-width:760px)']: {
+            width: '60%'
+        }
+
     },
     container: {
         borderRadius: '10px',

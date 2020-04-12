@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
         transform: 'rotate(180deg)',
     },
     avatar: {
-        backgroundColor: 'black'
+        backgroundColor: '#121212'
     },
     title: {
         fontSize: '1.4rem',

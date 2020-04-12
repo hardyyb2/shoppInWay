@@ -1,27 +1,66 @@
 import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+
 import { Grid } from '@material-ui/core'
 
-import NavBar from './NavBar/NavBar'
 import Cards from './Cards/Cards'
 import MiniDrawer from '../UI/MiniDrawer/MiniDrawer'
-import { products } from '../dump/products'
+import Spinner from '../UI/Spinner/Spinner'
+
+import { getProducts } from '../store/actions/index'
+
 
 const HomePage = props => {
-
     useEffect(() => {
-        if (!localStorage.getItem('cartProducts')) {
-            localStorage.setItem('cartProducts', JSON.stringify([]))
+        if (props.products === null) {
+            props.getProducts()
         }
-        //if there set redux store
-    })
+    }, [])
 
     return (
         <Grid container >
-            <MiniDrawer >
-                <Cards products={products} />
-            </MiniDrawer>
+            {
+                props.loading ?
+                    <Grid item xs container justify="center"
+                        style={{
+                            margin: '150px 0px 150px 0px',
+                            color: '#f5f5f5'
+                        }}
+                    >
+                        <Spinner />
+
+                    </Grid>
+                    // spinner later
+                    :
+                    props.products ?
+                        (
+                            props.products.length === 0 ?
+                                'No products'
+                                :
+
+                                <MiniDrawer >
+                                    <Cards key={props.products} products={props.products} />
+                                </MiniDrawer>
+
+                        )
+                        :
+                        null
+            }
         </Grid>
     )
 
 }
-export default HomePage
+
+const mapStateToProps = state => {
+    return {
+        products: state.products.products,
+        loading: state.products.loading
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        getProducts: () => dispatch(getProducts())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
