@@ -92,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
-        margin: 'auto'
+        margin: 'auto',
 
     },
     list: {

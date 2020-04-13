@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import {
-    Grid,
+    Grid, makeStyles,
     Typography, Paper, ButtonBase,
     Button,
 } from '@material-ui/core'
-import { withStyles } from '@material-ui/core/styles'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ImageModal from '../Modal/ImageModal'
@@ -15,7 +14,7 @@ import { useHistory } from 'react-router-dom'
 
 import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
-const styles = theme => ({
+const styles = makeStyles({
     root: {
         flexGrow: 1,
     },
@@ -65,7 +64,7 @@ const styles = theme => ({
 
 const Details = props => {
 
-    const { classes } = props
+    const classes = styles()
     const history = useHistory()
 
     const [isAddedToCart, setIsAddedToCart] = useState(false)
@@ -82,8 +81,11 @@ const Details = props => {
     }
 
     useEffect(() => {
-        checkInCart(props.currentDetailProduct.id)
-    }, [props.cart])
+        if (props.currentDetailProduct) {
+            checkInCart(props.currentDetailProduct.id)
+        }
+
+    }, [props.cart, props.currentDetailProduct])
 
     const handleAddToCart = productId => {
         let newCart = [...props.cart]
@@ -193,7 +195,17 @@ const Details = props => {
             </MiniDrawer >
         )
     } else {
-        return 'no detail products'
+        return (
+            <MiniDrawer>
+                <Grid container style={{
+                    background: '#181a1b', alignItems: 'center'
+                }} >
+                    <div className={classes.root
+                    } >
+                    </div>
+                </Grid>
+            </MiniDrawer>
+        )
     }
 }
 
@@ -212,4 +224,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Details))
+export default connect(mapStateToProps, mapDispatchToProps)(Details)
