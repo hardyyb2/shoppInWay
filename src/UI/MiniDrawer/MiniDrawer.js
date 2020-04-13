@@ -17,6 +17,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Badge from '@material-ui/core/Badge';
+
 
 import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -29,7 +31,8 @@ const drawerWidth = 240
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        background: '#1f1f1f'
+        background: '#1f1f1f',
+        minHeight: '100vh'
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
@@ -89,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
+        margin: 'auto'
 
     },
     list: {
@@ -149,7 +153,11 @@ const MiniDrawer = props => {
                         ShoppInWay
               </Typography>
                     <Button color="inherit"
-                        startIcon={<ShoppingCartIcon />}
+                        startIcon={
+                            <Badge badgeContent={props.cart.length} color="secondary" >
+                                <ShoppingCartIcon />
+                            </Badge>
+                        }
                         onClick={() => checkLocation()}
                     >Cart</Button>
 
@@ -192,7 +200,9 @@ const MiniDrawer = props => {
                         <ListItemIcon style={{
                             color: '#f5f5f5'
                         }}>
-                            <ShoppingCartIcon />
+                            <Badge badgeContent={props.cart.length} color="secondary" >
+                                <ShoppingCartIcon />
+                            </Badge>
                         </ListItemIcon>
                         <ListItemText primary="My Cart" />
                     </ListItem>
@@ -225,8 +235,14 @@ const MiniDrawer = props => {
                         null
                 }
             </main>
-        </div>
+        </div >
     )
+}
+
+const mapStateToProps = state => {
+    return {
+        cart: state.products.cart
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -234,4 +250,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(MiniDrawer)
+export default connect(mapStateToProps, mapDispatchToProps)(MiniDrawer)

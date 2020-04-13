@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Grid } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 import Cards from '../Cards/Cards'
+import EmptyCart from '../../assets/images/emptyCart.svg'
 
 import Spinner from '../../UI/Spinner/Spinner'
 
@@ -8,18 +9,31 @@ import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
 import { connect } from 'react-redux'
 
-import { db } from '../../firebase/firebase'
 
-import { SET_CART, SET_LOCAL_CART_PRODUCTS } from '../../store/actions/index'
+import { SET_CART } from '../../store/actions/index'
 import { getCartProducts } from '../../store/actions/index'
 
+const useStyles = makeStyles({
+    image: {
+        width: 300,
+        height: 400,
+        background: '#1f1f2f'
+    },
+    img: {
+        margin: 'auto',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+    },
+})
+
 const CartProducts = props => {
-    const [cart, setCart] = useState([])
+    const classes = useStyles()
+
     const [notFound, setNotFound] = useState(false)
 
     useEffect(() => {
         props.getCartProducts(props.cart)
-
     }, [])
 
     return (
@@ -28,12 +42,22 @@ const CartProducts = props => {
                 {
                     props.localCartProducts ?
                         (
-                            <Cards
-                                products={props.localCartProducts}
-                            />
+                            props.localCartProducts.length !== 0 ?
+                                <Cards
+                                    products={props.localCartProducts}
+                                />
+                                :
+                                <Grid container direction="column" justify="center" container style={{ marginTop: '10px', alignItems: 'center' }}>
+                                    <Grid item container className={classes.image}>
+                                        <img src={EmptyCart} alt="emptycart" className={classes.img} />
+                                    </Grid>
+                                    <Grid item style={{ color: '#f5f5f5', fontSize: '2rem' }}>
+                                        Your Cart is empty
+                                    </Grid>
+                                </Grid>
                         )
                         :
-                        'no dsakdkjansdhjashdas'
+                        null
                 }
                 {
                     notFound ?

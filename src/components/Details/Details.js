@@ -28,7 +28,7 @@ const styles = theme => ({
     },
     image: {
         width: 400,
-        height: 600,
+        height: 500,
         ['@media (max-width: 500px)']: {
             width: '350px',
             height: '500px',
@@ -158,7 +158,7 @@ const Details = props => {
                                                     }}
                                                     onClick={() => {
                                                         props.setCurrentBuyProduct(props.currentDetailProduct)
-                                                        history.push('/buynow')
+                                                        history.push(`/buynow/${props.currentDetailProduct.id}`)
                                                     }}
                                                 >
                                                     Buy Now

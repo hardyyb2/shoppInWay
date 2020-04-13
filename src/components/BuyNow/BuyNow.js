@@ -1,16 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { makeStyles, Grid, Button } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import fs from 'fs'
-
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as actionTypes from '../../store/actions'
 
 import CurrentProductCard from './CurrentProductCard/CurrentProductCard'
-import DetailsForm from './DetailsForm/DetailsForm'
 
 import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
@@ -18,46 +14,23 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     }
-
 }));
 
 const BuyNow = props => {
     const classes = useStyles();
     const history = useHistory()
-    const myRef = useRef(null)
-
-    const [showForm, setShowForm] = useState(false)
 
     const removeAndGoBack = () => {
         history.goBack()
     }
 
     const handleProceed = () => {
-        setShowForm(true)
-        handleScroll()
-
+        history.push('/address')
     }
-    const handleScroll = () => {
-        myRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-
-    const handleDeliveryOptions = (details) => {
-        // for now just order page
-        console.log(details)
-        // fs.appendFile('../../dump/orders.txt', '', function (err) {
-        //     if (err) throw err;
-        //     console.log('Saved!');
-        // });
-
-        history.push('/ordersuccess')
-
-    }
-
-
 
     return (
         <MiniDrawer >
-            <div className={classes.root} style={{ background: '#181a1b', minHeight: '100vh', paddingTop: '100px' }}>
+            <div className={classes.root} >
 
                 <CurrentProductCard />
                 <Grid container justify="center" style={{ marginTop: '20px' }}>
@@ -91,17 +64,6 @@ const BuyNow = props => {
 
                     </Grid>
                 </Grid>
-                {
-                    showForm ?
-                        <DetailsForm
-                            handleDeliveryOptions={(details) => handleDeliveryOptions(details)}
-                        />
-                        :
-                        null
-                }
-
-                <div ref={myRef}>
-                </div>
             </div >
         </MiniDrawer>
     )
@@ -113,8 +75,4 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(BuyNow)
+export default connect(mapStateToProps)(BuyNow)

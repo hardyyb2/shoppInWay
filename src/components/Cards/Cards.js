@@ -34,7 +34,7 @@ const Cards = props => {
 
     const showMoreDetails = productId => {
         props.setDetailProduct(productId)
-        history.push('/details')
+        history.push(`/details/${productId}`)
     }
 
     const checkInCart = productId => {
@@ -46,7 +46,7 @@ const Cards = props => {
 
     const handleBuyProduct = productId => {
         props.setCurrentBuyProduct(productId)
-        history.push('/buynow')
+        history.push(`/buynow/${productId}`)
     }
 
     return (

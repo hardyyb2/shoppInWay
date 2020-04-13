@@ -53,7 +53,8 @@ const useStyles = makeStyles(theme => ({
     media: {
         height: 0,
         paddingTop: '100%',
-        backgroundColor: 'black' // 16:9
+        backgroundColor: 'black',
+        cursor: 'pointer' // 16:9
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -128,6 +129,7 @@ const ProductCard = props => {
                     onClick={() => {
                         props.showMoreDetails()
                     }}
+
                 />
             </LazyLoad>
             <CardContent>

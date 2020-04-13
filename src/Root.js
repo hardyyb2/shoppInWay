@@ -7,6 +7,7 @@ import OrderSuccess from './components/OrderSuccess/OrderSuccess'
 import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
 import LandingPage from './components/LandingPage/LandingPage'
+import Address from './components/Usercomponents/UserAddressesContainer/UserAddressesContainer'
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -40,10 +41,19 @@ const Root = props => {
                             isAuthenticated={props.isAuthenticated}
                             isVerifying={props.isVerifying}
                         />
+
+                        <ProtectedRoute
+                            exact
+                            key='address'
+                            path='/address'
+                            component={Address}
+                            isAuthenticated={props.isAuthenticated}
+                            isVerifying={props.isVerifying}
+                        />
                         <ProtectedRoute
                             exact
                             key='buynow'
-                            path="/buynow"
+                            path="/buynow/:id"
                             component={BuyNow}
                             isAuthenticated={props.isAuthenticated}
                             isVerifying={props.isVerifying}
@@ -51,7 +61,7 @@ const Root = props => {
                         <ProtectedRoute
                             exact
                             key='details'
-                            path="/details"
+                            path="/details/:id"
                             component={Details}
                             isAuthenticated={props.isAuthenticated}
                             isVerifying={props.isVerifying}
@@ -68,12 +78,13 @@ const Root = props => {
 
                         <ProtectedRoute
                             exact
-                            key='cart'
+                            key='home'
                             path='/'
                             component={HomePage}
                             isAuthenticated={props.isAuthenticated}
                             isVerifying={props.isVerifying}
                         />
+
                         <Route exact key="index" path='/index' component={LandingPage} />
                         <Route exact key="login" path='/login' component={Login} />
                         <Route exact key="signup" path='/signup' component={Signup} />
