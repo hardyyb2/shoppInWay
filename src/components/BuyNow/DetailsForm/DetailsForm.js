@@ -4,81 +4,11 @@ import validator from 'validator'
 
 import FormInput from './FormInput'
 
+import { connect } from 'react-redux'
+import { SET_USER_DETAILS } from '../../../store/actions/index'
 
 const DetailsForm = props => {
 
-    const [orderForm, setOrderForm]
-        = useState({
-            Name: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Your Name..'
-                },
-                value: '',
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true
-                }
-            },
-            Email: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Your Email..'
-                },
-                value: '',
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true,
-                    isEmail: true
-                }
-            },
-            Phone: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Your Phone Number..'
-                },
-                value: '',
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true,
-                    isNumber: true
-                }
-            },
-            Street: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Your Street..'
-                },
-                value: '',
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true
-                }
-            },
-            PostalCode: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'ZIP..'
-                },
-                value: '',
-                valid: false,
-                touched: false,
-                validation: {
-                    required: true,
-                    minLength: 3
-                }
-            },
-
-        })
     const [formIsValid, setFormIsValid] = useState(false)
 
 
@@ -103,7 +33,7 @@ const DetailsForm = props => {
     }
 
     const inputChangedHandler = (event, inputIdentifier) => {
-        const updatedForm = { ...orderForm }
+        const updatedForm = { ...props.userDetails }
         const updatedFormElement = { ...updatedForm[inputIdentifier] }
         updatedFormElement.value = event.target.value
         updatedFormElement.valid = checkValidation(
@@ -116,28 +46,28 @@ const DetailsForm = props => {
         for (let key in updatedForm) {
             formIsValid = updatedForm[key].valid && formIsValid
         }
-        setOrderForm(updatedForm)
+        props.setUserDetails(updatedForm)
+
         setFormIsValid(formIsValid)
     }
 
 
     const formElementsArray = []
-    for (let key in orderForm) {
+    for (let key in props.userDetails) {
         formElementsArray.push({
             id: key,
-            config: orderForm[key],
+            config: props.userDetails[key],
             title: key
         })
     }
 
     return (
         <Grid container direction="column" justify="center"
-            style={{ marginTop: '30px' }}
         >
             {
                 formElementsArray.map((elem, index) => {
                     return (
-                        <Grid key={index} item xs container justify="center">
+                        <Grid key={index} item style={{ margin: '10px 0' }} container justify="center">
                             <FormInput
                                 key={elem.id}
                                 touched={elem.config.touched}
@@ -153,39 +83,22 @@ const DetailsForm = props => {
                         </Grid>
                     )
                 })}
-            <Grid item xs container justify="center">
-
-                <Button
-                    variant="contained"
-                    style={{
-                        fontWeight: 'bold',
-                        background: (formIsValid ? '#c51162' : '#1d1d1d'),
-                        color: (formIsValid ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.2)'),
-                        marginBottom: '20px'
-                    }}
-                    onClick={() => {
-                        let details = {}
-                        for (let key in orderForm) {
-                            if (key === 'phone') {
-                                details[key] = parseInt(orderForm[key].value)
-                            }
-                            else {
-                                details[key] = orderForm[key].value
-                            }
-                        }
-                        props.handleDeliveryOptions(details)
-                    }}
-                    disabled={!formIsValid}
-
-                >
-                    {/* Choose Delivery Method */}
-                     Order
-                </Button>
-
-            </Grid>
         </Grid >
     )
 
+
 }
 
-export default DetailsForm
+const mapStateToProps = state => {
+    return {
+        userDetails: state.user.userDetails
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setUserDetails: (userDetails) => dispatch({ type: SET_USER_DETAILS, userDetails: userDetails })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailsForm)

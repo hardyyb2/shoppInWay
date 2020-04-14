@@ -9,7 +9,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -72,11 +71,20 @@ const useStyles = makeStyles(theme => ({
     title: {
         fontSize: '1.4rem',
         fontWeight: 'bolder',
-        color: '#f5f5f5'
+        color: '#f5f5f5',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        display: 'inline-block',
+        maxWidth: '100%',
     },
     subheader: {
-        color: 'rgba(255,255,255,0.6)'
-
+        color: 'rgba(255,255,255,0.6)',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        display: 'inline-block',
+        maxWidth: '80%',
     },
     desc: {
         color: 'rgba(255,255,255,0.8)'
@@ -110,6 +118,10 @@ const ProductCard = props => {
                 classes={{
                     title: classes.title,
                     subheader: classes.subheader
+                }}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center'
                 }}
                 title={props.product_title || ''}
                 subheader={props.product_subtitle || ''}

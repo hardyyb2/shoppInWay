@@ -88,6 +88,15 @@ const signUpError = (signupErrMessage) => {
     }
 }
 
+export const setUserDetails = (user, userDetails) => dispatch => {
+    db
+        .collection('users')
+        .doc(user.user.uid)
+        .set(userDetails)
+        .then(data => {
+            dispatch(signUpSuccess(user))
+        })
+}
 
 //async actions for thunk
 export const loginUser = (email, password) => dispatch => {
@@ -130,15 +139,14 @@ export const verifyAuth = () => dispatch => {
         })
 }
 
-export const signupUser = (email, password) => dispatch => {
+export const signupUser = (email, password, userDetails) => dispatch => {
     dispatch(requestSignup())
     myFirebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then(user => {
-            dispatch(signUpSuccess(user))
-        }
-        )
+            dispatch(setUserDetails(user, userDetails))
+        })
         .catch(err => {
             dispatch(signUpError(err.message))
         })

@@ -8,12 +8,12 @@ import Select from '@material-ui/core/Select';
 const useStyles = makeStyles(theme => ({
     input: {
         color: '#f5f5f5',
-        borderWidth: '1px',
-        borderColor: '#f5f5f5 !important',
-
+        borderBottom: '1px solid #f5f5f5',
+        outline: 'none'
     },
     label: {
         color: '#f5f5f5 !important',
+        outline: 'none'
     },
 
     select: {
@@ -44,7 +44,7 @@ const FormInput = props => {
             return (
                 <TextField
                     autoFocus={props.label.toLowerCase() === 'name'}
-                    variant="outlined"
+                    fullWidth
                     label={props.label}
                     type={props.elementConfig.type}
                     placeholder={props.elementConfig.placeholder}
@@ -54,9 +54,7 @@ const FormInput = props => {
                     onChange={props.changed}
                     InputProps={{
                         className: classes.input,
-                        classes: {
-                            notchedOutline: classes.input
-                        }
+
                     }}
                     InputLabelProps={{
                         className: classes.label,
@@ -69,7 +67,7 @@ const FormInput = props => {
                     <InputLabel >{props.label}</InputLabel>
                     <Select
                         open={open}
-                        variant="outlined"
+                        fullWidth
                         onClose={handleClose}
                         onOpen={handleOpen}
                         value={props.value}
