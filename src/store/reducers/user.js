@@ -1,4 +1,7 @@
-import { SET_USER_DETAILS }
+import {
+    SET_USER_DETAILS,
+    SET_USER_ADDRESS_ARRAY
+}
     from '../actions/index'
 
 const initialState = {
@@ -58,7 +61,8 @@ const initialState = {
             }
         },
 
-    }
+    },
+    addresses: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -68,6 +72,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 userDetails: action.userDetails
             }
+        case SET_USER_ADDRESS_ARRAY: {
+            return {
+                ...state,
+                addresses: action.addressArray
+            }
+        }
         default:
             return state
 

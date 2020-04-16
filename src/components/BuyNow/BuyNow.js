@@ -10,6 +10,7 @@ import CurrentProductCard from './CurrentProductCard/CurrentProductCard'
 
 import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -25,6 +26,7 @@ const BuyNow = props => {
     }
 
     const handleProceed = () => {
+
         history.push('/address')
     }
 
@@ -75,4 +77,9 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(BuyNow)
+const mapDispatchToProps = dispatch => {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuyNow)

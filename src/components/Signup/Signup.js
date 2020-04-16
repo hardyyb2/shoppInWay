@@ -57,9 +57,16 @@ const SignUp = props => {
         const { dispatch } = props;
         let details = {}
         details['email'] = email
+        let address = {}
         for (let key in props.userDetails) {
-            details[key] = props.userDetails[key].value
+            if (key.toLowerCase() === 'postalcode' || key.toLowerCase() === 'street' || key.toLowerCase() === 'city') {
+                address[key] = props.userDetails[key].value
+            } else {
+                details[key] = props.userDetails[key].value
+            }
         }
+        details['address'] = []
+        details['address'].push(address)
         dispatch(signupUser(email, password, details));
 
     }

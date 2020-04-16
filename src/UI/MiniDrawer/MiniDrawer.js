@@ -17,6 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import Badge from '@material-ui/core/Badge';
 
 
@@ -207,6 +208,20 @@ const MiniDrawer = props => {
                         <ListItemText primary="My Cart" />
                     </ListItem>
 
+                    {/* add address button */}
+                    <ListItem button key="address"
+                        onClick={() => {
+
+                        }}
+                    >
+
+                        <ListItemIcon style={{
+                            color: '#f5f5f5'
+                        }}>
+                            <AccountBalanceWalletIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Add Address" />
+                    </ListItem>
 
                     {/* logout user button */}
                     <ListItem button key="logout"
@@ -222,6 +237,8 @@ const MiniDrawer = props => {
                         </ListItemIcon>
                         <ListItemText primary="Logout" />
                     </ListItem>
+
+
 
                 </List>
             </Drawer>

@@ -94,7 +94,6 @@ const mapStateToProps = state => {
         userDetails: state.user.userDetails
     }
 }
-
 const mapDispatchToProps = dispatch => {
     return {
         setUserDetails: (userDetails) => dispatch({ type: SET_USER_DETAILS, userDetails: userDetails })

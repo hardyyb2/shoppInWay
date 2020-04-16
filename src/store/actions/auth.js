@@ -106,6 +106,7 @@ export const loginUser = (email, password) => dispatch => {
         .signInWithEmailAndPassword(email, password)
         .then(user => {
             dispatch(receiveLogin(user))
+            localStorage.setItem('useruid', JSON.stringify(user.uid))
         })
         .catch(error => {
             //Do something with the error if you want!
@@ -136,6 +137,8 @@ export const verifyAuth = () => dispatch => {
                 dispatch(receiveLogin(user))
             }
             dispatch(verifySuccess())
+            localStorage.setItem('useruid', JSON.stringify(user.uid))
+
         })
 }
 
@@ -146,6 +149,7 @@ export const signupUser = (email, password, userDetails) => dispatch => {
         .createUserWithEmailAndPassword(email, password)
         .then(user => {
             dispatch(setUserDetails(user, userDetails))
+            localStorage.setItem('useruid', JSON.stringify(user.uid))
         })
         .catch(err => {
             dispatch(signUpError(err.message))

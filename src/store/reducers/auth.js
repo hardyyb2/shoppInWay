@@ -74,7 +74,7 @@ export default (state = initialState, action) => {
         case VERIFY_SUCCESS:
             return {
                 ...state,
-                isVerifying: false
+                isVerifying: false,
             }
         case SIGNUP_REQUEST: {
             return {
