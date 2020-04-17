@@ -12,15 +12,15 @@ const Inner = styled.div`
   }
 `;
 
-const visibleStyle = { height: "auto", opacity: 1, overflow: "visible" };
-const hiddenStyle = { opacity: 0, height: 0, overflow: "hidden" };
+const visibleStyle = { height: "auto", opacity: 1, overflow: "visible", width: '100%' };
+const hiddenStyle = { opacity: 0, height: 0, overflow: "hidden", width: '100%' };
 
 function getElementHeight(ref) {
     return ref.current ? ref.current.getBoundingClientRect().height : 0;
 }
 
 /** The children of this component will slide down on mount and will slide up on unmount */
-const SlideToggleContent = ({ isVisible, children, forceSlideIn }) => {
+const SlideToggleContent = ({ isVisible, children, forceSlideIn, width }) => {
     const isVisibleOnMount = useRef(isVisible && !forceSlideIn);
     const containerRef = useRef(null);
     const innerRef = useRef(null);
@@ -51,7 +51,7 @@ const SlideToggleContent = ({ isVisible, children, forceSlideIn }) => {
     return transitions.map(({ item: show, props: springProps, key }) => {
         if (show) {
             return (
-                <animated.div ref={containerRef} key={key} style={springProps}>
+                <animated.div ref={containerRef} key={key} style={springProps} >
                     <Inner ref={innerRef}>{children}</Inner>
                 </animated.div>
             );

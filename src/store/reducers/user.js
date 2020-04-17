@@ -1,6 +1,9 @@
 import {
     SET_USER_DETAILS,
-    SET_USER_ADDRESS_ARRAY
+    GET_USER_ADDRESSES,
+    RECEIVE_USER_ADDRESSES,
+    USER_ADDRESSES_ERROR,
+    SET_CURRENT_DELIVERY_ADDRESS
 }
     from '../actions/index'
 
@@ -62,7 +65,10 @@ const initialState = {
         },
 
     },
-    addresses: []
+    addresses: [],
+    loading: false,
+    refreshAddresses: false,
+    currentDeliveryAddress: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -72,10 +78,31 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 userDetails: action.userDetails
             }
-        case SET_USER_ADDRESS_ARRAY: {
+
+        //ADDRESSES
+        case GET_USER_ADDRESSES:
             return {
                 ...state,
-                addresses: action.addressArray
+                loading: true
+            }
+        case RECEIVE_USER_ADDRESSES: {
+            return {
+                ...state,
+                addresses: action.addressArray,
+                loading: false
+            }
+        }
+        case USER_ADDRESSES_ERROR: {
+            return {
+                ...state,
+                loading: false
+            }
+        }
+
+        case SET_CURRENT_DELIVERY_ADDRESS: {
+            return {
+                ...state,
+                currentDeliveryAddress: action.address
             }
         }
         default:
