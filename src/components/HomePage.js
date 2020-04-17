@@ -6,15 +6,15 @@ import { Grid } from '@material-ui/core'
 import Cards from './Cards/Cards'
 import MiniDrawer from '../UI/MiniDrawer/MiniDrawer'
 import Spinner from '../UI/Spinner/Spinner'
+import HomePageSkeleton from '../UI/HomePageSkeleton/HomePageSkeleton'
 
 import { getProducts } from '../store/actions/index'
 
 
 const HomePage = props => {
     useEffect(() => {
-        if (props.products === null) {
+        if (props.products === null || props.products === [])
             props.getProducts()
-        }
     }, [])
 
     return (
@@ -32,19 +32,24 @@ const HomePage = props => {
                     </Grid>
                     // spinner later
                     :
-                    props.products ?
-                        (
-                            props.products.length === 0 ?
-                                'No products'
-                                :
-
-                                <MiniDrawer >
+                    <MiniDrawer >
+                        {props.products ?
+                            (
+                                props.products.length === 0 ?
+                                    'No products'
+                                    :
                                     <Cards key={props.products} products={props.products} />
-                                </MiniDrawer>
+                            )
+                            :
+                            <Grid container justify="space-between" >
+                                {Array(9).fill().map((arr, index) =>
+                                    <HomePageSkeleton key={index} />
+                                )}
+                            </Grid>
+                        }
+                    </MiniDrawer>
 
-                        )
-                        :
-                        null
+
             }
         </Grid>
     )
@@ -54,7 +59,7 @@ const HomePage = props => {
 const mapStateToProps = state => {
     return {
         products: state.products.products,
-        loading: state.products.loading
+        loading: state.auth.loading
     }
 }
 const mapDispatchToProps = dispatch => {

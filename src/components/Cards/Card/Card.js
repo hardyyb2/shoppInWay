@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         display: 'inline-block',
-        maxWidth: '100%',
+        maxWidth: '80%',
     },
     subheader: {
         color: 'rgba(255,255,255,0.6)',
