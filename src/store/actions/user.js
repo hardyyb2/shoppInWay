@@ -29,12 +29,15 @@ const userAddressesError = () => {
     }
 }
 
+
+
 export const setCurrentDeliveryAddress = address => {
     return {
         type: SET_CURRENT_DELIVERY_ADDRESS,
         address
     }
 }
+
 
 export const getUserAddresses = () => dispatch => {
     console.log('running', store().getState().auth)
@@ -56,7 +59,6 @@ export const getUserAddresses = () => dispatch => {
 }
 
 export const setUserAddresses = address => async (dispatch) => {
-    console.log('reacging here')
     let addressesRef = db.collection('users').doc(useruid)
     await addressesRef.update({
         address: firebase1.firestore.FieldValue.arrayUnion(address)
@@ -65,3 +67,21 @@ export const setUserAddresses = address => async (dispatch) => {
 
 }
 
+export const removeDeliveryAddress = (addressIndex) => dispatch => {
+    dispatch(getAddresses())
+    let addressArray = [...store().getState().user.addresses]
+    let newAddressArray = addressArray.filter((address, index) => index !== addressIndex)
+    db
+        .collection('users')
+        .doc(useruid)
+        .update({
+            address: newAddressArray
+        })
+        .then(res => {
+            dispatch(getUserAddresses())
+        })
+        .catch(err => {
+            dispatch(userAddressesError())
+            console.log('error removing address', err)
+        })
+}

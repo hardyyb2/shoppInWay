@@ -27,6 +27,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { logoutUser } from '../../store/actions/index'
 import Logout from '../../Logout/Logout'
 
+import { getCartProducts } from '../../store/actions/index'
+
 const drawerWidth = 240
 
 const useStyles = makeStyles((theme) => ({
@@ -124,6 +126,7 @@ const MiniDrawer = props => {
         if (location.pathname.trim() === '/cart') {
             //do nothing
         } else {
+            props.getCartProducts(props.cart)
             history.push('/cart')
         }
     }
@@ -150,7 +153,13 @@ const MiniDrawer = props => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap style={{ margin: 'auto' }}>
+                    <Typography variant="h6" noWrap
+                        style={{
+                            margin: 'auto',
+                            cursor: 'pointer'
+                        }}
+                        onClick={() => history.push('/')}
+                    >
                         ShoppInWay
               </Typography>
                     <Button color="inherit"
@@ -211,7 +220,9 @@ const MiniDrawer = props => {
                     {/* add address button */}
                     <ListItem button key="address"
                         onClick={() => {
-
+                            if (location.pathname.trim() === '/address') { }
+                            else
+                                history.push('/address')
                         }}
                     >
 
@@ -264,6 +275,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        getCartProducts: (cart) => dispatch(getCartProducts(cart))
     }
 }
 

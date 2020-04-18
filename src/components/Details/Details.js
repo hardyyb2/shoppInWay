@@ -156,7 +156,7 @@ const Details = props => {
         if (props.currentDetailProduct) {
             checkInCart(props.currentDetailProduct.id)
         }
-    }, [])
+    }, [props.cart])
 
     const handleAddToCart = productId => {
         let newCart = [...props.cart]

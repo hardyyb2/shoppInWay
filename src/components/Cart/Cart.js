@@ -34,7 +34,6 @@ const CartProducts = props => {
     const [notFound, setNotFound] = useState(false)
 
     useEffect(() => {
-        props.getCartProducts(props.cart)
     }, [])
 
     return (

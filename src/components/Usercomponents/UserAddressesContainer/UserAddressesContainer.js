@@ -11,7 +11,8 @@ import { connect } from 'react-redux'
 import {
     getUserAddresses,
     setUserAddresses,
-    setCurrentDeliveryAddress
+    setCurrentDeliveryAddress,
+    removeDeliveryAddress
 } from '../../../store/actions/index'
 
 
@@ -68,6 +69,9 @@ const UserAddressContainer = props => {
                                     handleClick={() => {
                                         props.setCurrentDeliveryAddress(address)
                                         console.log('clieck')
+                                    }}
+                                    handleDeleteAddress={() => {
+                                        props.removeDeliveryAddress(index)
                                     }}
                                 />
                             )
@@ -174,23 +178,29 @@ const UserAddressContainer = props => {
                     </Grid>
                 </SlideDownAnimation>
             </Grid>
-            {
-                !setAddress ?
-                    <Grid item xs container style={{ width: '100%' }} justify="center">
-                        <Button
-                            aria-label="address"
-                            variant="contained"
-                            style={{
-                                fontWeight: 'bold',
-                                background: '#c51162',
-                                color: 'rgba(255,255,255,0.9)'
-                            }}
-                            onClick={() => setSetAddress(true)}
-                        >
-                            Add Another Address
 
-            </Button>
-                    </Grid>
+            {
+                props.addresses && props.addresses.length < 3 ?
+                    (
+                        !setAddress ?
+                            <Grid item xs container style={{ width: '100%' }} justify="center">
+                                <Button
+                                    aria-label="address"
+                                    variant="contained"
+                                    style={{
+                                        fontWeight: 'bold',
+                                        background: '#c51162',
+                                        color: 'rgba(255,255,255,0.9)'
+                                    }}
+                                    onClick={() => setSetAddress(true)}
+                                >
+                                    Add Another Address
+
+                        </Button>
+                            </Grid>
+                            :
+                            null
+                    )
                     :
                     null
             }
@@ -213,7 +223,8 @@ const mapDispatchToProps = dispatch => {
     return {
         getUserAddresses: () => dispatch(getUserAddresses()),
         setUserAdresses: (address) => dispatch(setUserAddresses(address)),
-        setCurrentDeliveryAddress: (address) => dispatch(setCurrentDeliveryAddress(address))
+        setCurrentDeliveryAddress: (address) => dispatch(setCurrentDeliveryAddress(address)),
+        removeDeliveryAddress: (addressIndex) => dispatch(removeDeliveryAddress(addressIndex))
 
     }
 }
