@@ -2,6 +2,7 @@ import { db, firebase1 } from '../../firebase/firebase'
 import store from '../configureStore'
 
 export const SET_USER_DETAILS = 'SET_USER_DETAILS'
+export const SET_USER_PROFILE_DETAILS = 'SET_USER_PROFILE_DETAILS'
 
 export const GET_USER_ADDRESSES = 'GET_USER_ADDRESSES'
 export const RECEIVE_USER_ADDRESSES = 'RECEIVE_USER_ADDRESSES'
@@ -29,7 +30,12 @@ const userAddressesError = () => {
     }
 }
 
-
+const setUserDetails = userDetails => {
+    return {
+        type: SET_USER_PROFILE_DETAILS,
+        userDetails
+    }
+}
 
 export const setCurrentDeliveryAddress = address => {
     return {
@@ -67,9 +73,9 @@ export const setUserAddresses = address => async (dispatch) => {
 
 }
 
-export const removeDeliveryAddress = (addressIndex) => dispatch => {
+export const removeDeliveryAddress = (addressIndex) => (dispatch, getState) => {
     dispatch(getAddresses())
-    let addressArray = [...store().getState().user.addresses]
+    let addressArray = [...getState().user.addresses]
     let newAddressArray = addressArray.filter((address, index) => index !== addressIndex)
     db
         .collection('users')
@@ -83,5 +89,19 @@ export const removeDeliveryAddress = (addressIndex) => dispatch => {
         .catch(err => {
             dispatch(userAddressesError())
             console.log('error removing address', err)
+        })
+}
+
+export const getUserProfileDetails = () => dispatch => {
+    dispatch(getAddresses())
+    db
+        .collection('users')
+        .doc(useruid)
+        .get()
+        .then(snapshot => {
+            dispatch(setUserDetails(snapshot.data()))
+        })
+        .catch(err => {
+            dispatch(userAddressesError())
         })
 }

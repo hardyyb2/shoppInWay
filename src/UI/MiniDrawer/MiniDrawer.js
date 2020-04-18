@@ -19,7 +19,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import Badge from '@material-ui/core/Badge';
-
+import PersonIcon from '@material-ui/icons/Person';
 
 import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -27,7 +27,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { logoutUser } from '../../store/actions/index'
 import Logout from '../../Logout/Logout'
 
-import { getCartProducts } from '../../store/actions/index'
+import { getCartProducts, getUserProfileDetails } from '../../store/actions/index'
 
 const drawerWidth = 240
 
@@ -161,7 +161,7 @@ const MiniDrawer = props => {
                         onClick={() => history.push('/')}
                     >
                         ShoppInWay
-              </Typography>
+                      </Typography>
                     <Button color="inherit"
                         startIcon={
                             <Badge badgeContent={props.cart.length} color="secondary" >
@@ -234,6 +234,21 @@ const MiniDrawer = props => {
                         <ListItemText primary="Add Address" />
                     </ListItem>
 
+                    {/*profile  */}
+                    <ListItem button key="profile"
+                        onClick={() => {
+                            props.getUserDetails()
+                            history.push('/profile')
+                        }}
+                    >
+
+                        <ListItemIcon style={{
+                            color: '#f5f5f5'
+                        }}>
+                            <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile" />
+                    </ListItem>
                     {/* logout user button */}
                     <ListItem button key="logout"
                         onClick={() => {
@@ -275,7 +290,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getCartProducts: (cart) => dispatch(getCartProducts(cart))
+        getCartProducts: (cart) => dispatch(getCartProducts(cart)),
+        getUserDetails: () => dispatch(getUserProfileDetails())
     }
 }
 

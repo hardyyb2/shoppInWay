@@ -8,6 +8,7 @@ import Signup from './components/Signup/Signup'
 import Login from './components/Login/Login'
 import LandingPage from './components/LandingPage/LandingPage'
 import Address from './components/Usercomponents/UserAddressesContainer/UserAddressesContainer'
+import UserProfile from './components/Usercomponents/UserProfile/UserProfile'
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -20,8 +21,6 @@ import styled from "styled-components";
 
 const Root = props => {
     const { location } = props
-
-
 
     return (
         <Wrapper>
@@ -78,13 +77,21 @@ const Root = props => {
 
                         <ProtectedRoute
                             exact
+                            key='profile'
+                            path='/profile'
+                            component={UserProfile}
+                            isAuthenticated={props.isAuthenticated}
+                            isVerifying={props.isVerifying}
+                        />
+
+                        <ProtectedRoute
+                            exact
                             key='home'
                             path='/'
                             component={HomePage}
                             isAuthenticated={props.isAuthenticated}
                             isVerifying={props.isVerifying}
                         />
-
                         <Route exact key="index" path='/index' component={LandingPage} />
                         <Route exact key="login" path='/login' component={Login} />
                         <Route exact key="signup" path='/signup' component={Signup} />

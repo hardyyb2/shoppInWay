@@ -1,5 +1,6 @@
 import {
     SET_USER_DETAILS,
+    SET_USER_PROFILE_DETAILS,
     GET_USER_ADDRESSES,
     RECEIVE_USER_ADDRESSES,
     USER_ADDRESSES_ERROR,
@@ -68,7 +69,8 @@ const initialState = {
     addresses: [],
     loading: false,
     refreshAddresses: false,
-    currentDeliveryAddress: null
+    currentDeliveryAddress: null,
+    profile: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -78,6 +80,13 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 userDetails: action.userDetails
             }
+        case SET_USER_PROFILE_DETAILS: {
+            return {
+                ...state,
+                profile: action.userDetails,
+                loading: false
+            }
+        }
 
         //ADDRESSES
         case GET_USER_ADDRESSES:
@@ -102,7 +111,7 @@ const reducer = (state = initialState, action) => {
         case SET_CURRENT_DELIVERY_ADDRESS: {
             return {
                 ...state,
-                currentDeliveryAddress: action.address
+                currentDeliveryAddress: action.address,
             }
         }
         default:

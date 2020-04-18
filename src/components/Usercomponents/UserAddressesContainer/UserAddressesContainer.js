@@ -30,6 +30,16 @@ const useStyles = makeStyles({
         '&::after': {
             background: `linear-gradient(90deg, transparent, #444 , transparent)`,
         }
+    },
+    skeleton: {
+        background: '#1f1f2f',
+        width: 410,
+        height: 358,
+        ['@media (max-width:500px)']: {
+            width: 300,
+            height: 240
+        }
+
     }
 
 })
@@ -56,6 +66,10 @@ const UserAddressContainer = props => {
         <MiniDrawer>
             <Grid item style={{ color: '#f5f5f5', fontWeight: 'bold', fontSize: '2rem', marginBottom: '20px' }}>
                 Select Delivery Address
+            </Grid>
+
+            <Grid item style={{ color: '#f5f5f5', fontSize: '1rem', marginBottom: '10px' }}>
+                (Max 3 addresses allowed)
             </Grid>
             <Grid container direction="row" style={{ minWidth: '100%', flexGrow: 1, marginBottom: '30px' }} justify="center">
 
@@ -84,12 +98,9 @@ const UserAddressContainer = props => {
                         <Grid item xs container style={{ width: '100%' }} justify="center">
                             <Skeleton
                                 variant="rect"
-                                width={410}
-                                height={358}
+
                                 animation="wave"
-                                style={{
-                                    background: '#202020',
-                                }}
+                                className={classes.skeleton}
                                 classes={{
                                     wave: classes.wave
                                 }}
