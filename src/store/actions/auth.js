@@ -135,9 +135,10 @@ export const verifyAuth = () => dispatch => {
         .onAuthStateChanged(user => {
             if (user !== null) {
                 dispatch(receiveLogin(user))
+                localStorage.setItem('useruid', JSON.stringify(user.uid))
             }
             dispatch(verifySuccess())
-            localStorage.setItem('useruid', JSON.stringify(user.uid))
+
 
         })
 }

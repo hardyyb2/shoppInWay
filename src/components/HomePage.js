@@ -41,7 +41,7 @@ const HomePage = props => {
                                     <Cards key={props.products} products={props.products} />
                             )
                             :
-                            <Grid container justify="space-between" >
+                            <Grid container justify="space-evenly" >
                                 {Array(9).fill().map((arr, index) =>
                                     <HomePageSkeleton key={index} />
                                 )}

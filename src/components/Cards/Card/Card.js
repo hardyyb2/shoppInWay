@@ -77,6 +77,8 @@ const useStyles = makeStyles(theme => ({
         textOverflow: 'ellipsis',
         display: 'inline-block',
         maxWidth: '80%',
+        ['@media (max-width: 500px)']: {
+        },
     },
     subheader: {
         color: 'rgba(255,255,255,0.6)',
@@ -85,6 +87,8 @@ const useStyles = makeStyles(theme => ({
         textOverflow: 'ellipsis',
         display: 'inline-block',
         maxWidth: '80%',
+        ['@media (max-width: 500px)']: {
+        },
     },
     desc: {
         color: 'rgba(255,255,255,0.8)'

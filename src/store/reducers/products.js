@@ -46,21 +46,24 @@ const reducer = (state = initialState, action) => {
         case GET_CART_PRODUCTS_SUCCESS:
             return {
                 ...state,
-                localCartProducts: action.products
+                localCartProducts: action.products,
+                loading: false
             }
 
         //GET current details product
         case SET_DETAIL_PRODUCT:
             return {
                 ...state,
-                currentDetailProduct: action.product
+                currentDetailProduct: action.product,
+                loading: false
             }
 
         //GET current buy product
         case SET_CURRENT_BUY_PRODUCT: {
             return {
                 ...state,
-                currentBuyProduct: action.product
+                currentBuyProduct: action.product,
+                loading: false
             }
         }
 

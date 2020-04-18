@@ -6,21 +6,16 @@ import Card from './Card/Card'
 import { connect } from 'react-redux'
 
 import Spinner from '../../UI/Spinner/Spinner'
-import { products } from '../../dump/products'
 import { useHistory } from 'react-router-dom'
 
 import {
     SET_CART,
     getCartProducts,
-    getCurrentBuyProduct,
     getDetailProduct
 } from '../../store/actions/index'
 
 const Cards = props => {
     const history = useHistory()
-
-    useEffect(() => {
-    }, [])
 
     const handleAddToCart = productId => {
         const cart = [...props.cart]
@@ -32,8 +27,10 @@ const Cards = props => {
         props.setCart(cart)
     }
 
-    const showMoreDetails = productId => {
+    const showMoreDetails = async (productId) => {
+
         props.setDetailProduct(productId)
+
         history.push(`/details/${productId}`)
     }
 
@@ -45,7 +42,6 @@ const Cards = props => {
     }
 
     const handleBuyProduct = productId => {
-        props.setCurrentBuyProduct(productId)
         history.push(`/buynow/${productId}`)
     }
 
@@ -102,7 +98,6 @@ const mapDispatchToProps = dispatch => {
     return {
         setCart: (cart) => dispatch({ type: SET_CART, cart: cart }),
         setDetailProduct: (productId) => dispatch(getDetailProduct(productId)),
-        setCurrentBuyProduct: (productId) => dispatch(getCurrentBuyProduct(productId)),
         getCartProducts: (cart) => dispatch(getCartProducts(cart))
 
     }

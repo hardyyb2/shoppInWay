@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Grid, Button } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -26,7 +26,6 @@ const BuyNow = props => {
     }
 
     const handleProceed = () => {
-
         history.push('/address')
     }
 
@@ -34,7 +33,7 @@ const BuyNow = props => {
         <MiniDrawer >
             <div className={classes.root} >
 
-                <CurrentProductCard />
+                <CurrentProductCard path={props.location.pathname} />
                 <Grid container justify="center" style={{ marginTop: '20px' }}>
                     <Grid item>
                         <Button
@@ -73,7 +72,6 @@ const BuyNow = props => {
 
 const mapStateToProps = state => {
     return {
-        currentBuyProduct: state.currentBuyProduct
     }
 }
 

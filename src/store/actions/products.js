@@ -73,8 +73,7 @@ export const getProducts = () => dispatch => {
 }
 
 export const getCartProducts = (cart) => dispatch => {
-    dispatch(requestProducts)
-    console.log('called this one')
+    dispatch(requestProducts())
     const products = []
     if (cart.length === 0) {
         dispatch(receiveCartProducts(products))
@@ -100,7 +99,7 @@ export const getCartProducts = (cart) => dispatch => {
 }
 
 export const getCurrentBuyProduct = productId => dispatch => {
-    dispatch(requestProducts)
+    dispatch(requestProducts())
     console.log(productId)
     db.collection('products')
         .doc(productId)
@@ -109,13 +108,14 @@ export const getCurrentBuyProduct = productId => dispatch => {
             dispatch(receiveCurrentBuyProduct({ ...res.data(), ['id']: productId }))
         })
         .catch(err => {
-            dispatch(productsError)
+            dispatch(productsError())
         })
 
 }
 
 export const getDetailProduct = productId => dispatch => {
-    dispatch(requestProducts)
+    console.log('received product id', productId)
+    dispatch(requestProducts())
     console.log(productId)
     db.collection('products')
         .doc(productId)
@@ -124,6 +124,6 @@ export const getDetailProduct = productId => dispatch => {
             dispatch(receiveDetailProduct({ ...res.data(), ['id']: productId }))
         })
         .catch(err => {
-            dispatch(productsError)
+            dispatch(productsError())
         })
 }

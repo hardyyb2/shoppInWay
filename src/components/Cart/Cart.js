@@ -6,6 +6,7 @@ import EmptyCart from '../../assets/images/emptyCart.svg'
 import Spinner from '../../UI/Spinner/Spinner'
 
 import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
+import HomePageSkeleton from '../../UI/HomePageSkeleton/HomePageSkeleton'
 
 import { connect } from 'react-redux'
 
@@ -40,7 +41,7 @@ const CartProducts = props => {
         <MiniDrawer>
             <Grid container>
                 {
-                    props.localCartProducts ?
+                    !props.loading ?
                         (
                             props.localCartProducts.length !== 0 ?
                                 <Cards
@@ -57,7 +58,13 @@ const CartProducts = props => {
                                 </Grid>
                         )
                         :
-                        null
+                        <Grid container justify="center" >
+                            {
+                                Array(4).fill().map((arr, index) =>
+                                    <HomePageSkeleton key={index} />)
+                            }
+                        )
+                        </Grid>
                 }
                 {
                     notFound ?
@@ -77,7 +84,8 @@ const CartProducts = props => {
 const mapStateToProps = state => {
     return {
         cart: state.products.cart,
-        localCartProducts: state.products.localCartProducts
+        localCartProducts: state.products.localCartProducts,
+        loading: state.products.loading
     }
 }
 const mapDispatchToProps = dispatch => {
