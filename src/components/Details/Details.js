@@ -150,10 +150,11 @@ const Details = props => {
             console.log('running get details product')
             await props.setDetailProduct(detailItem[1])
         }
-        if (detailItem[1] !== props.currentDetailProduct.id)
-            getDetailProduct()
+
 
         if (props.currentDetailProduct) {
+            if (detailItem[1] !== props.currentDetailProduct.id)
+                getDetailProduct()
             checkInCart(props.currentDetailProduct.id)
         }
     }, [props.cart])

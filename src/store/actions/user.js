@@ -11,9 +11,15 @@ export const SET_CURRENT_DELIVERY_ADDRESS = 'SET_CURRENT_DELIVERY_ADDRESS'
 
 export const SET_LOADING_PERCENT = 'SET_LOADING_PERCENT'
 
-
-const useruid = JSON.parse(localStorage.getItem('useruid'))
-
+const getUserUid = () => {
+    let useruid
+    if (store().getState().auth.user.user) {
+        useruid = store().getState().auth.user.user.uid
+    } else {
+        useruid = JSON.parse(localStorage.getItem('useruid'))
+    }
+    return useruid
+}
 const getAddresses = () => {
     return {
         type: GET_USER_ADDRESSES
@@ -64,7 +70,7 @@ export const getUserAddresses = () => dispatch => {
     //change this
     db
         .collection('users')
-        .doc(useruid)
+        .doc(getUserUid())
         .get()
         .then(snapshot => {
             console.log(snapshot.data())
@@ -78,7 +84,7 @@ export const getUserAddresses = () => dispatch => {
 }
 
 export const setUserAddresses = address => async (dispatch) => {
-    let addressesRef = db.collection('users').doc(useruid)
+    let addressesRef = db.collection('users').doc(getUserUid())
     await addressesRef.update({
         address: firebase1.firestore.FieldValue.arrayUnion(address)
     })
@@ -92,7 +98,7 @@ export const removeDeliveryAddress = (addressIndex) => (dispatch, getState) => {
     let newAddressArray = addressArray.filter((address, index) => index !== addressIndex)
     db
         .collection('users')
-        .doc(useruid)
+        .doc(getUserUid())
         .update({
             address: newAddressArray
         })
@@ -109,7 +115,7 @@ export const getUserProfileDetails = () => dispatch => {
     dispatch(getAddresses())
     db
         .collection('users')
-        .doc(useruid)
+        .doc(getUserUid())
         .get()
         .then(snapshot => {
             dispatch(setUserDetails(snapshot.data()))
@@ -123,7 +129,7 @@ export const setUserProfileDetails = details => dispatch => {
     dispatch(getAddresses())
     db
         .collection('users')
-        .doc(useruid)
+        .doc(getUserUid())
         .set({
             Name: details.name,
             Phone: details.phone,
@@ -142,7 +148,7 @@ export const setUserProfileDetails = details => dispatch => {
 }
 
 export const setImageUpload = (image) => dispatch => {
-    const storageRef = storage.ref(`images/${useruid}`)
+    const storageRef = storage.ref(`images/${getUserUid()}`)
     const uploadTask = storageRef.put(image)
     uploadTask.on(
         'state_changed',
@@ -161,7 +167,7 @@ export const setImageUpload = (image) => dispatch => {
             uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
                 db
                     .collection(`users`)
-                    .doc(useruid)
+                    .doc(getUserUid())
                     .set(
                         {
                             url: downloadURL

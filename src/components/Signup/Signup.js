@@ -156,13 +156,13 @@ const SignUp = props => {
                         fullWidth
                         variant="contained"
                         style={{
-                            background: '#c51162',
+                            background: ((props.isLoggingIn) ? '#1f2f2f' : '#c51162'),
                             color: 'white'
                         }}
                         size="large"
                         onClick={handleSignUp}
                     >
-                        SignUp
+                        {props.isLoggingIn ? 'Please Wait...' : 'SignUp'}
                     </Button>
                 </Grid>
                 <Grid item style={{ margin: '10px' }}>
@@ -198,6 +198,7 @@ const SignUp = props => {
 
 function mapStateToProps(state) {
     return {
+        isLoggingIn: state.auth.isLoggingIn,
         isAuthenticated: state.auth.isAuthenticated,
         user: state.auth.user,
         signupError: state.auth.signupError,

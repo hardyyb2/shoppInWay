@@ -96,6 +96,10 @@ export const setUserDetails = (user, userDetails) => dispatch => {
         .then(data => {
             dispatch(signUpSuccess(user))
         })
+        .catch(err => {
+            dispatch(signUpError())
+            console.log('culd not put in db')
+        })
 }
 
 //async actions for thunk
