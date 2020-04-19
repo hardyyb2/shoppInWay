@@ -10,7 +10,7 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import MiniDrawer from '../../../UI/MiniDrawer/MiniDrawer'
 
 import { connect } from 'react-redux'
-import { getUserProfileDetails, setImageUpload } from '../../../store/actions/index'
+import { getUserProfileDetails, setImageUpload, setUserProfileDetails } from '../../../store/actions/index'
 import ProfileImage from '../../../UI/ProfileImage/ProfileImage';
 
 const useStyles = makeStyles({
@@ -286,10 +286,19 @@ const UserProfile = props => {
                                                     <Button
                                                         variant="contained"
                                                         fullWidth
-                                                        onClick={() => {
+                                                        onClick={async () => {
                                                             //save editDetail
                                                             //show snackbar
+                                                            await props.setUserProfileDetails(
+                                                                {
+                                                                    name,
+                                                                    phone,
+                                                                    sex,
+                                                                    bio
+                                                                }
+                                                            )
                                                             setEditDetails(false)
+
                                                         }}
                                                         style={{
                                                             background: '#1f1f2f',
@@ -342,7 +351,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getUserProfileDetails: () => dispatch(getUserProfileDetails()),
-        setImageUpload: (image) => dispatch(setImageUpload(image))
+        setImageUpload: (image) => dispatch(setImageUpload(image)),
+        setUserProfileDetails: (details) => dispatch(setUserProfileDetails(details))
     }
 }
 

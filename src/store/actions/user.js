@@ -119,6 +119,28 @@ export const getUserProfileDetails = () => dispatch => {
         })
 }
 
+export const setUserProfileDetails = details => dispatch => {
+    dispatch(getAddresses())
+    db
+        .collection('users')
+        .doc(useruid)
+        .set({
+            Name: details.name,
+            Phone: details.phone,
+            Sex: details.sex,
+            Bio: details.bio
+        }, {
+            merge: true
+        })
+        .then(snapshot => {
+            dispatch(setUserDetails(snapshot.data()))
+        })
+        .catch(err => {
+            dispatch(userAddressesError())
+        })
+
+}
+
 export const setImageUpload = (image) => dispatch => {
     const storageRef = storage.ref(`images/${useruid}`)
     const uploadTask = storageRef.put(image)
