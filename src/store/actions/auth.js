@@ -120,10 +120,13 @@ export const loginUser = (email, password) => dispatch => {
 
 export const logoutUser = () => dispatch => {
     dispatch(requestLogout())
+
     myFirebase
         .auth()
         .signOut()
         .then(() => {
+            localStorage.removeItem('useruid')
+            localStorage.removeItem('persist:products')
             dispatch(receiveLogout())
         })
         .catch(error => {

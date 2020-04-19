@@ -114,9 +114,7 @@ const MiniDrawer = props => {
     const [showLogout, setShowLogout] = React.useState(false)
     const [open, setOpen] = React.useState(false)
 
-    useEffect(() => {
 
-    }, [props.cart])
     const handleDrawerOpen = () => {
         setOpen(true)
     }
@@ -212,7 +210,7 @@ const MiniDrawer = props => {
                     {/* Open cart */}
                     <ListItem button key="cart"
                         onClick={() => {
-                            history.push('/cart')
+                            checkLocation()
                         }}
                     >
                         <ListItemIcon style={{
