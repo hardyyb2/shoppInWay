@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, makeStyles } from '@material-ui/core'
+import { Grid, makeStyles, Button } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
+
 import Cards from '../Cards/Cards'
 import EmptyCart from '../../assets/images/emptyCart.svg'
 
@@ -26,6 +29,11 @@ const useStyles = makeStyles({
         maxWidth: '100%',
         maxHeight: '100%',
     },
+    buttonContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '10px'
+    }
 })
 
 const CartProducts = props => {
@@ -34,18 +42,54 @@ const CartProducts = props => {
     const [notFound, setNotFound] = useState(false)
 
     useEffect(() => {
+
     }, [])
 
     return (
         <MiniDrawer>
             <Grid container>
+
                 {
                     !props.loading ?
                         (
                             props.localCartProducts.length !== 0 ?
-                                <Cards
-                                    products={props.localCartProducts}
-                                />
+                                <>
+                                    <Grid item xs container className={classes.buttonContainer}>
+                                        <Grid item>
+                                            <Button
+                                                startIcon={<DeleteIcon />}
+                                                onClick={() => {
+                                                    props.setCart([])
+                                                }}
+                                                style={{
+                                                    fontWeight: 'bold',
+                                                    background: 'rgba(59,75,105,0.8)',
+                                                    color: '#f5f5f5',
+                                                    marginRight: '10px'
+                                                }}
+                                            >
+                                                Clear Cart
+                                         </Button>
+                                        </Grid>
+                                        <Grid item>
+                                            <Button
+                                                startIcon={<AttachMoneyIcon />}
+                                                variant="contained"
+                                                style={{
+                                                    fontWeight: 'bold',
+                                                    background: '#c51162',
+                                                    color: 'rgba(255,255,255,0.9)',
+                                                }}
+                                                onClick={() => { }}
+                                            >
+                                                Buy Cart
+                                         </Button>
+                                        </Grid>
+                                    </Grid>
+                                    <Cards
+                                        products={props.localCartProducts}
+                                    />
+                                </>
                                 :
                                 <Grid container direction="column" justify="center" container style={{ marginTop: '10px', alignItems: 'center' }}>
                                     <Grid item container className={classes.image}>
@@ -84,7 +128,8 @@ const mapStateToProps = state => {
     return {
         cart: state.products.cart,
         localCartProducts: state.products.localCartProducts,
-        loading: state.products.loading
+        loading: state.products.loading,
+
     }
 }
 const mapDispatchToProps = dispatch => {

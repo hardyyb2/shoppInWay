@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 
     },
     image: {
+        position: 'relative',
         width: 400,
         height: 500,
         ['@media (max-width: 500px)']: {
@@ -106,7 +107,7 @@ const UserProfile = props => {
                                     width={300}
                                 />
                                 :
-                                <ButtonBase className={classes.image} >
+                                <Grid item xs container className={classes.image} >
                                     {
                                         !props.load ?
                                             <ProfileImage
@@ -124,7 +125,7 @@ const UserProfile = props => {
                                                 width={300}
                                             />
                                     }
-                                </ButtonBase>
+                                </Grid>
                         }
                         </Grid>
                         <Grid item xs={12} sm container>

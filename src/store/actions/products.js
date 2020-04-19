@@ -75,6 +75,7 @@ export const getProducts = () => dispatch => {
 export const getCartProducts = (cart) => dispatch => {
     dispatch(requestProducts())
     const products = []
+    console.log('this is cart', cart)
     if (cart.length === 0) {
         dispatch(receiveCartProducts(products))
     }

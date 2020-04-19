@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles, useTheme, Button } from '@material-ui/core'
 import Drawer from '@material-ui/core/Drawer'
@@ -114,6 +114,9 @@ const MiniDrawer = props => {
     const [showLogout, setShowLogout] = React.useState(false)
     const [open, setOpen] = React.useState(false)
 
+    useEffect(() => {
+
+    }, [props.cart])
     const handleDrawerOpen = () => {
         setOpen(true)
     }
@@ -162,11 +165,16 @@ const MiniDrawer = props => {
                     >
                         ShoppInWay
                       </Typography>
+
                     <Button color="inherit"
+
                         startIcon={
-                            <Badge badgeContent={props.cart.length} color="secondary" >
+                            props.cart ?
+                                <Badge badgeContent={props.cart.length} color="secondary" >
+                                    <ShoppingCartIcon />
+                                </Badge>
+                                :
                                 <ShoppingCartIcon />
-                            </Badge>
                         }
                         onClick={() => checkLocation()}
                     >Cart</Button>
@@ -210,9 +218,13 @@ const MiniDrawer = props => {
                         <ListItemIcon style={{
                             color: '#f5f5f5'
                         }}>
-                            <Badge badgeContent={props.cart.length} color="secondary" >
+                            {props.cart ?
+                                <Badge badgeContent={props.cart.length} color="secondary" >
+                                    <ShoppingCartIcon />
+                                </Badge>
+                                :
                                 <ShoppingCartIcon />
-                            </Badge>
+                            }
                         </ListItemIcon>
                         <ListItemText primary="My Cart" />
                     </ListItem>
