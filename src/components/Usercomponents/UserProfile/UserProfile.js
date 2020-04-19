@@ -10,7 +10,8 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import MiniDrawer from '../../../UI/MiniDrawer/MiniDrawer'
 
 import { connect } from 'react-redux'
-import { getUserProfileDetails } from '../../../store/actions/index'
+import { getUserProfileDetails, setImageUpload } from '../../../store/actions/index'
+import ProfileImage from '../../../UI/ProfileImage/ProfileImage';
 
 const useStyles = makeStyles({
     root: {
@@ -73,6 +74,7 @@ const UserProfile = props => {
     const [phone, setPhone] = useState('')
     const [sex, setSex] = useState('')
     const [bio, setBio] = useState('')
+    const [url, setURL] = useState('')
 
     useEffect(() => {
         if (props.profile) {
@@ -81,6 +83,7 @@ const UserProfile = props => {
             setPhone(up.Phone || '')
             setSex(up.sex || '')
             setBio(up.bio || '')
+            setURL(up.url || '')
         } else {
             props.getUserProfileDetails()
         }
@@ -104,7 +107,23 @@ const UserProfile = props => {
                                 />
                                 :
                                 <ButtonBase className={classes.image} >
-                                    <img className={classes.img} alt="complex" />
+                                    {
+                                        !props.load ?
+                                            <ProfileImage
+                                                image={url}
+
+                                                className={classes.img}
+                                                setImageUpload={(image) => props.setImageUpload(image)} />
+                                            :
+                                            <Skeleton classes={{
+                                                wave: classes.wave
+                                            }}
+                                                variant="rect"
+                                                animation="wave"
+                                                height={500}
+                                                width={300}
+                                            />
+                                    }
                                 </ButtonBase>
                         }
                         </Grid>
@@ -316,12 +335,14 @@ const UserProfile = props => {
 const mapStateToProps = state => {
     return {
         loading: state.user.loading,
-        profile: state.user.profile
+        profile: state.user.profile,
+        load: state.user.load
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        getUserProfileDetails: () => dispatch(getUserProfileDetails())
+        getUserProfileDetails: () => dispatch(getUserProfileDetails()),
+        setImageUpload: (image) => dispatch(setImageUpload(image))
     }
 }
 

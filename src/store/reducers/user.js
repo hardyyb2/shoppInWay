@@ -4,7 +4,8 @@ import {
     GET_USER_ADDRESSES,
     RECEIVE_USER_ADDRESSES,
     USER_ADDRESSES_ERROR,
-    SET_CURRENT_DELIVERY_ADDRESS
+    SET_CURRENT_DELIVERY_ADDRESS,
+    SET_LOADING_PERCENT
 }
     from '../actions/index'
 
@@ -70,7 +71,9 @@ const initialState = {
     loading: false,
     refreshAddresses: false,
     currentDeliveryAddress: null,
-    profile: null
+    profile: null,
+    loadingPercent: 0,
+    load: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -112,6 +115,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentDeliveryAddress: action.address,
+            }
+        }
+        //image upload
+        case SET_LOADING_PERCENT: {
+            return {
+                ...state,
+                loadingPercent: action.payload.percent,
+                load: action.payload.load
             }
         }
         default:

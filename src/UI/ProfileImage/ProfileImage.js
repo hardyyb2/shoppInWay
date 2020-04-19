@@ -1,63 +1,65 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, makeStyles } from '@material-ui/core'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import EditIcon from '@material-ui/icons/Edit'
 
 const useStyles = makeStyles(theme => ({
     fileStyle: {
         display: 'none'
     },
     customFileUpload: {
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
         padding: '10px',
-        background: '#673ab7',
-        borderRadius: '5px',
+        background: '#c51162',
+        borderRadius: '50%',
         border: 'none',
         outline: 'none',
         cursor: 'pointer',
         color: 'white',
-        fontWeight: 'bolder'
+        fontWeight: 'bolder',
+        zIndex: 99
     },
+
     image: {
-        marginBottom: '5px'
+        maxWidth: 400,
+        maxHeight: 450,
+        ['@media (max-width: 500px)']: {
+            width: '350px',
+            height: '450px',
+
+        },
+        ['@media (max-width: 450px)']: {
+            width: '300px',
+            height: '350px',
+
+        },
+        ['@media (max-width: 400px)']: {
+            width: '240px',
+            height: '270px',
+
+        }
     }
+
 }));
 
 
 const ProfileImage = (props) => {
     const classes = useStyles()
-    const [selectedFile, setSelectedFile] = useState()
-    const [preview, setPreview] = useState()
 
     // create a preview as a side effect, whenever selected file is changed
-    useEffect(() => {
-        if (!selectedFile) {
-            setPreview(undefined)
-            return
-        }
-
-        const objectUrl = URL.createObjectURL(selectedFile)
-        setPreview(objectUrl)
-
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [selectedFile])
-
     const onSelectFile = e => {
-        if (!e.target.files || e.target.files.length === 0) {
-            setSelectedFile(undefined)
-            return
-        }
-        setSelectedFile(e.target.files[0])
+        props.setImageUpload(e.target.files[0])
     }
 
     return (
         <Grid container style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} direction="column" >
-            {selectedFile && <img className={classes.image} width={props.width} height={props.height} src={preview} alt="Logo or Signature" />}
+            <img className={classes.image} width={props.width} height={props.height} src={props.image} alt="Logo or Signature" />
 
             <label className={classes.customFileUpload} >
 
                 <input type='file' className={classes.fileStyle} onChange={onSelectFile} />
-                <CloudUploadIcon style={{ marginRight: '5px' }} />
-                Upload {props.title}
+                <EditIcon />
             </label>
         </Grid>
     )

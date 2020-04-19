@@ -1,4 +1,4 @@
-import { db, firebase1 } from '../../firebase/firebase'
+import { db, firebase1, storage } from '../../firebase/firebase'
 import store from '../configureStore'
 
 export const SET_USER_DETAILS = 'SET_USER_DETAILS'
@@ -8,6 +8,9 @@ export const GET_USER_ADDRESSES = 'GET_USER_ADDRESSES'
 export const RECEIVE_USER_ADDRESSES = 'RECEIVE_USER_ADDRESSES'
 export const USER_ADDRESSES_ERROR = 'USER_ADDRESSES_ERROR'
 export const SET_CURRENT_DELIVERY_ADDRESS = 'SET_CURRENT_DELIVERY_ADDRESS'
+
+export const SET_LOADING_PERCENT = 'SET_LOADING_PERCENT'
+
 
 const useruid = JSON.parse(localStorage.getItem('useruid'))
 
@@ -34,6 +37,16 @@ const setUserDetails = userDetails => {
     return {
         type: SET_USER_PROFILE_DETAILS,
         userDetails
+    }
+}
+
+const setLoadingPercent = (percent, load) => {
+    return {
+        type: SET_LOADING_PERCENT,
+        payload: {
+            percent,
+            load
+        }
     }
 }
 
@@ -104,4 +117,48 @@ export const getUserProfileDetails = () => dispatch => {
         .catch(err => {
             dispatch(userAddressesError())
         })
+}
+
+export const setImageUpload = (image) => dispatch => {
+    const storageRef = storage.ref(`images/${useruid}`)
+    const uploadTask = storageRef.put(image)
+    uploadTask.on(
+        'state_changed',
+        snapshot => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            console.log('progresss', progress)
+            let progressPercent = progress.toFixed(2)
+            dispatch(setLoadingPercent(progressPercent, true))
+            //use state to track progress
+        },
+        error => {
+            dispatch(setLoadingPercent(0, false))
+            console.log('error uploading image')
+        },
+        () => {
+            uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+                db
+                    .collection(`users`)
+                    .doc(useruid)
+                    .set(
+                        {
+                            url: downloadURL
+                        },
+                        {
+                            merge: true
+                        }
+                    )
+                    .then(() => {
+                        dispatch(getUserProfileDetails())
+                        console.log(`done saving imge`)
+                    })
+                    .catch(err => {
+                        console.log(`db not updated` + err.message)
+                    })
+            })
+
+            dispatch(setLoadingPercent(0, false))
+
+        }
+    )
 }
