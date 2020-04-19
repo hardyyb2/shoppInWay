@@ -86,9 +86,16 @@ const CurrentProductCard = props => {
                 <Grid item style={{ margin: 'auto' }}>
                     {
                         !props.loading ?
-                            <ButtonBase className={classes.image}>
-                                <img className={classes.img} alt="complex" src={props.currentBuyProduct.product_image} />
-                            </ButtonBase>
+                            (props.currentBuyProduct ?
+                                (
+                                    <ButtonBase className={classes.image}>
+                                        <img className={classes.img} alt="complex" src={props.currentBuyProduct.product_image} />
+                                    </ButtonBase>
+                                )
+                                :
+                                null
+                            )
+
                             :
                             <Skeleton variant="rect" animation="wave" classes={{ wave: classes.wave }} className={classes.image} />
                     }
@@ -96,19 +103,27 @@ const CurrentProductCard = props => {
                 <Grid item xs={12} sm container>
                     <Grid item xs container direction="column" >
                         {!props.loading ?
-                            <Grid item xs>
+                            (props.currentBuyProduct ?
+                                (<Grid item xs>
 
-                                <Typography gutterBottom variant="subtitle1" className={classes.title}>
-                                    {props.currentBuyProduct.product_title}
-                                </Typography>
-                                <Typography variant="body2" gutterBottom className={classes.subtitle}>
-                                    {props.currentBuyProduct.product_subtitle}
-                                </Typography>
+                                    <Typography gutterBottom variant="subtitle1" className={classes.title}>
+                                        {props.currentBuyProduct.product_title}
+                                    </Typography>
+                                    <Typography variant="body2" gutterBottom className={classes.subtitle}>
+                                        {props.currentBuyProduct.product_subtitle}
+                                    </Typography>
 
-                                <Typography variant="body2" color="textSecondary" className={classes.price}>
-                                    ${props.currentBuyProduct.product_price.toFixed(2)}
-                                </Typography>
-                            </Grid>
+                                    <Typography variant="body2" color="textSecondary" className={classes.price}>
+                                        ${props.currentBuyProduct.product_price.toFixed(2)}
+                                    </Typography>
+                                </Grid>
+                                )
+
+                                :
+                                null
+                            )
+
+
                             :
                             <Grid item xs >
                                 <Skeleton variant="rect" animation="wave" classes={{ wave: classes.wave }} className={classes.title} />
