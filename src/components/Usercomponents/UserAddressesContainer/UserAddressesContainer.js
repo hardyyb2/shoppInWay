@@ -55,7 +55,6 @@ const UserAddressContainer = props => {
 
 
     useEffect(() => {
-        console.log('why isny it running', props.user)
         const fetchUserAddresses = async () => {
             await props.getUserAddresses()
         }

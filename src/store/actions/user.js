@@ -65,7 +65,7 @@ export const setCurrentDeliveryAddress = address => {
 
 
 export const getUserAddresses = () => dispatch => {
-    console.log('running', store().getState().auth)
+
     dispatch(getAddresses())
     //change this
     db
@@ -73,7 +73,7 @@ export const getUserAddresses = () => dispatch => {
         .doc(getUserUid())
         .get()
         .then(snapshot => {
-            console.log(snapshot.data())
+            console.log('these are addresses ', snapshot.data())
             dispatch(receievUserAddresses(snapshot.data().address))
         })
         .catch(err => {

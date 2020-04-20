@@ -78,6 +78,8 @@ const useStyles = makeStyles(theme => ({
         display: 'inline-block',
         maxWidth: '80%',
         ['@media (max-width: 500px)']: {
+            fontSize: '1rem',
+            whiteSpace: 'normal'
         },
     },
     subheader: {
@@ -127,6 +129,7 @@ const ProductCard = props => {
                     display: 'flex',
                     justifyContent: 'center'
                 }}
+
                 title={props.product_title || ''}
                 subheader={props.product_subtitle || ''}
             />

@@ -7,9 +7,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 import List from '@material-ui/core/List'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import Divider from '@material-ui/core/Divider'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import ListItem from '@material-ui/core/ListItem'
@@ -20,6 +20,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import Badge from '@material-ui/core/Badge';
 import PersonIcon from '@material-ui/icons/Person';
+import HomeIcon from '@material-ui/icons/Home';
 
 import { connect } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -102,6 +103,9 @@ const useStyles = makeStyles((theme) => ({
         color: '#f5f5f5',
         border: 'none',
         outline: 'none'
+    },
+    dividerColor: {
+        backgroundColor: '#121212'
     }
 }))
 
@@ -206,6 +210,21 @@ const MiniDrawer = props => {
                     </IconButton>
                 </div>
                 <List className={classes.list}>
+                    {/* home */}
+                    <ListItem button key="home"
+                        onClick={() => {
+                            history.push('/')
+                        }}
+                    >
+                        <ListItemIcon style={{
+                            color: '#f5f5f5'
+                        }}>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Home" />
+                    </ListItem>
+
+                    <Divider classes={{ root: classes.dividerColor }} />
 
                     {/* Open cart */}
                     <ListItem button key="cart"
@@ -259,6 +278,9 @@ const MiniDrawer = props => {
                         </ListItemIcon>
                         <ListItemText primary="Profile" />
                     </ListItem>
+
+                    <Divider classes={{ root: classes.dividerColor }} />
+
                     {/* logout user button */}
                     <ListItem button key="logout"
                         onClick={() => {

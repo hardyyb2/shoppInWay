@@ -12,6 +12,8 @@ import MiniDrawer from '../../../UI/MiniDrawer/MiniDrawer'
 import { connect } from 'react-redux'
 import { getUserProfileDetails, setImageUpload, setUserProfileDetails } from '../../../store/actions/index'
 import ProfileImage from '../../../UI/ProfileImage/ProfileImage';
+import Profile from '../../../assets/images/profile.svg'
+
 
 const useStyles = makeStyles({
     root: {
@@ -103,15 +105,14 @@ const UserProfile = props => {
                                 }}
                                     variant="rect"
                                     animation="wave"
-                                    height={500}
-                                    width={300}
+                                    className={classes.image}
                                 />
                                 :
                                 <Grid item xs container className={classes.image} >
                                     {
                                         !props.load ?
                                             <ProfileImage
-                                                image={url}
+                                                image={url || Profile}
 
                                                 className={classes.img}
                                                 setImageUpload={(image) => props.setImageUpload(image)} />
