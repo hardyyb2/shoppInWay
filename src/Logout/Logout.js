@@ -28,7 +28,7 @@ const Logout = props => {
                 aria-describedby="alert-dialog-description"
                 classes={{ paper: classes.modal }}
             >
-                <DialogTitle id="alert-dialog-title">{"Are you sure you want to Logout ?"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Are you sure you want to Logout?"}</DialogTitle>
                 <DialogActions>
                     <Button onClick={() => {
                         props.logout()
