@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import styled from "styled-components";
+import BuyCart from './components/BuyCart/BuyCart'
 
 
 
@@ -89,6 +90,14 @@ const Root = props => {
                             key='home'
                             path='/'
                             component={HomePage}
+                            isAuthenticated={props.isAuthenticated}
+                            isVerifying={props.isVerifying}
+                        />
+                        <ProtectedRoute
+                            exact
+                            key='buycart'
+                            path='/buycart'
+                            component={BuyCart}
                             isAuthenticated={props.isAuthenticated}
                             isVerifying={props.isVerifying}
                         />

@@ -12,7 +12,7 @@ import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 import HomePageSkeleton from '../../UI/HomePageSkeleton/HomePageSkeleton'
 
 import { connect } from 'react-redux'
-
+import { useHistory } from 'react-router-dom'
 
 import { SET_CART } from '../../store/actions/index'
 import { getCartProducts } from '../../store/actions/index'
@@ -38,6 +38,7 @@ const useStyles = makeStyles({
 
 const CartProducts = props => {
     const classes = useStyles()
+    const history = useHistory()
 
     const [notFound, setNotFound] = useState(false)
 
@@ -80,7 +81,9 @@ const CartProducts = props => {
                                                     background: '#c51162',
                                                     color: 'rgba(255,255,255,0.9)',
                                                 }}
-                                                onClick={() => { }}
+                                                onClick={() => {
+                                                    history.push('/buycart')
+                                                }}
                                             >
                                                 Buy Cart
                                          </Button>

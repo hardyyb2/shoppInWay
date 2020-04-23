@@ -147,6 +147,9 @@ const UserProfile = props => {
                                             <TextField
                                                 fullWidth
                                                 readOnly={true}
+                                                style={{
+                                                    pointerEvents: 'none'
+                                                }}
                                                 label="Email"
                                                 value={props.profile && props.profile.email || ''}
                                                 InputProps={{
@@ -175,6 +178,7 @@ const UserProfile = props => {
                                                 fullWidth
                                                 inputProps={{ readOnly: !editDetails }}
                                                 label="Name"
+                                                autoFocus={editDetails}
                                                 value={name}
                                                 onChange={e =>
                                                     setName(e.target.value)
