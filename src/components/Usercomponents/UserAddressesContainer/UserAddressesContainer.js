@@ -81,7 +81,7 @@ const UserAddressContainer = props => {
                                     address={address}
                                     handleClick={() => {
                                         props.setCurrentDeliveryAddress(address)
-                                        console.log('clieck')
+
                                     }}
                                     handleDeleteAddress={() => {
                                         props.removeDeliveryAddress(index)
@@ -112,7 +112,7 @@ const UserAddressContainer = props => {
                 <SlideDownAnimation isVisible={setAddress} >
                     <Grid item style={{ margin: '0px 10px 0px 10px', padding: '0px 10px 0px 10px' }}>
                         <TextField
-                            autofocus
+                            autoFocus
                             fullWidth
                             label='Postal code'
                             placeholder='Postal code'

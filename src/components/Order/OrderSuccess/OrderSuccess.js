@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import PurchaseSuccess from '../../assets/images/purchaseSuccessful.svg'
+import PurchaseSuccess from '../../../assets/images/purchaseSuccessful.svg'
 
 import { useHistory } from 'react-router-dom'
 
