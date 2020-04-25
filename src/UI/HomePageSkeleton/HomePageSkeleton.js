@@ -11,6 +11,32 @@ const useStyles = makeStyles((theme) => ({
         width: 345,
         margin: theme.spacing(2),
         background: '#1f1f2f',
+        ['@media (max-width: 850px)']: {
+            width: '300px',
+            minWidth: '300px',
+
+        },
+
+        ['@media (max-width: 720px)']: {
+            width: '400px',
+            minWidth: '400px',
+
+        },
+        ['@media (max-width: 500px)']: {
+            width: '330px',
+            minWidth: '330px',
+
+        },
+
+        ['@media (max-width: 450px)']: {
+            width: '260px',
+            minWidth: '260px',
+
+        },
+        ['@media (max-width: 350px)']: {
+            width: '250px',
+            minWidth: '250px',
+        }
     },
     media: {
         height: 250,

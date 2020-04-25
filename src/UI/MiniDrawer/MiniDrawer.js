@@ -298,7 +298,7 @@ const MiniDrawer = props => {
                                 <form onSubmit={(e) => {
                                     e.preventDefault()
                                     props.handleSearchSubmit(e.target.searchInput.value)
-                                    history.push(`/searchResults/${e.target.nameInput.value}`)
+                                    history.push(`/searchResults/${e.target.searchInput.value}`)
                                 }}>
                                     <div className={classes.search}>
                                         <div className={classes.searchIcon}>
