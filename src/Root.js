@@ -9,6 +9,7 @@ import Login from './components/Login/Login'
 import LandingPage from './components/LandingPage/LandingPage'
 import Address from './components/Usercomponents/UserAddressesContainer/UserAddressesContainer'
 import UserProfile from './components/Usercomponents/UserProfile/UserProfile'
+import SearchResults from './components/SearchResults/SearchResults'
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -33,6 +34,15 @@ const Root = props => {
                 >
 
                     <Switch location={location}>
+                        <ProtectedRoute
+                            exact
+                            key='searchResults'
+                            path="/searchResults/:id"
+                            component={SearchResults}
+                            isAuthenticated={props.isAuthenticated}
+                            isVerifying={props.isVerifying}
+                        />
+
                         <ProtectedRoute
                             exact
                             key='ordersuccess'

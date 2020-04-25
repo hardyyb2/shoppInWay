@@ -5,7 +5,10 @@ import {
     SET_DETAIL_PRODUCT,
     SET_CURRENT_BUY_PRODUCT,
     SET_CART,
-    GET_CART_PRODUCTS_SUCCESS
+    GET_CART_PRODUCTS_SUCCESS,
+    SEARCH_REQUEST,
+    SET_SEARCH_PRODUCTS,
+    SEARCH_ERROR
 } from '../actions/products'
 
 const initialState = {
@@ -14,7 +17,9 @@ const initialState = {
     cart: [],
     localCartProducts: null,
     currentDetailProduct: null,
-    currentBuyProduct: null
+    currentBuyProduct: null,
+    searchLoading: false,
+    searchText: ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -64,6 +69,29 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 currentBuyProduct: action.product,
                 loading: false
+            }
+        }
+
+        //search
+        case SEARCH_REQUEST: {
+            return {
+                ...state,
+                searchLoading: true
+            }
+        }
+        case SET_SEARCH_PRODUCTS: {
+            return {
+                ...state,
+                searchProducts: action.payload.searchProducts,
+                searchText: action.payload.searchText,
+                searchLoading: false
+            }
+        }
+
+        case SEARCH_ERROR: {
+            return {
+                ...state,
+                searchLoading: false
             }
         }
 

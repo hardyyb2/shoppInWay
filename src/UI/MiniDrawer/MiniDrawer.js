@@ -3,8 +3,7 @@ import clsx from 'clsx'
 import {
     makeStyles, useTheme, Button, fade, Drawer, AppBar, Toolbar,
     List, CssBaseline, Typography, IconButton, Divider, ListItem,
-    ListItemText, Badge, ListItemIcon, InputBase, ExpansionPanel,
-    ExpansionPanelSummary, ExpansionPanelDetails
+    ListItemText, Badge, ListItemIcon, InputBase,
 
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -23,7 +22,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 
 import Logout from '../../Logout/Logout'
 
-import { getCartProducts, getUserProfileDetails } from '../../store/actions/index'
+import { getCartProducts, getUserProfileDetails, getSearchResults } from '../../store/actions/index'
 
 import SlideDownAnimation from '../SlideDownAnimation/SlideDownAnimation'
 
@@ -180,6 +179,14 @@ const useStyles = makeStyles((theme) => ({
         ['@media (min-width:660px)']: {
             display: 'none'
         }
+    },
+    backdrop: {
+        position: 'fixed',
+        zIndex: 99,
+        minWidth: '100vw',
+        minHeight: '100vh',
+        background: '#1f1f1f',
+        opacity: '0.96'
     }
 
 }))
@@ -212,234 +219,256 @@ const MiniDrawer = props => {
     }
 
     return (
-        <div className={classes.root} >
-            <CssBaseline />
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
-                style={{ background: '#1f1f1f' }}
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap
-                        style={{
-                            position: 'absolute',
-                            left: '40%',
-                            cursor: 'pointer'
-                        }}
-                        onClick={() => history.push('/')}
-                    >
-                        ShoppInWay
+        <>
+            {showSmallScreenSearch &&
+                <div
+                    onClick={() => setShowSmallScreenSearch(false)}
+                    className={classes.backdrop} />
+            }
+            <div className={classes.root} >
+
+                <CssBaseline />
+                <AppBar
+                    position="fixed"
+                    className={clsx(classes.appBar, {
+                        [classes.appBarShift]: open,
+                    })}
+                    style={{ background: '#1f1f1f' }}
+                >
+                    <Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            className={clsx(classes.menuButton, {
+                                [classes.hide]: open,
+                            })}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap
+                            style={{
+                                position: 'absolute',
+                                left: '40%',
+                                cursor: 'pointer'
+                            }}
+                            onClick={() => history.push('/')}
+                        >
+                            ShoppInWay
                       </Typography>
-                    <div className={classes.rightAppBar}>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                autoFocus
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
+                        <div className={classes.rightAppBar}>
+                            <form onSubmit={(e) => {
+                                e.preventDefault()
+                                props.handleSearchSubmit(e.target.nameInput.value)
+                                history.push(`/searchResults/${e.target.nameInput.value}`)
+                            }}>
+                                <div className={classes.search}>
+                                    <div className={classes.searchIcon}>
+                                        <SearchIcon />
+                                    </div>
+                                    <InputBase
+                                        autoFocus
+                                        name="nameInput"
+                                        placeholder="Search…"
+                                        classes={{
+                                            root: classes.inputRoot,
+                                            input: classes.inputInput,
+                                        }}
+                                        inputProps={{ 'aria-label': 'search' }}
+                                    />
+                                </div>
+                            </form>
+                            <Button color="inherit"
+                                className={classes.appbarCart}
+                                startIcon={
+                                    props.cart ?
+                                        <Badge badgeContent={props.cart.length} color="secondary" >
+                                            <ShoppingCartIcon />
+                                        </Badge>
+                                        :
+                                        <ShoppingCartIcon />
+                                }
+                                onClick={() => checkLocation()}
+                            >Cart</Button>
                         </div>
 
-                        <Button color="inherit"
-                            className={classes.appbarCart}
-                            startIcon={
-                                props.cart ?
+                        <SlideDownAnimation isVisible={showSmallScreenSearch} >
+                            <div className={classes.smallScreenSearchBar} >
+                                <form onSubmit={(e) => {
+                                    e.preventDefault()
+                                    props.handleSearchSubmit(e.target.searchInput.value)
+                                    history.push(`/searchResults/${e.target.nameInput.value}`)
+                                }}>
+                                    <div className={classes.search}>
+                                        <div className={classes.searchIcon}>
+                                            <SearchIcon />
+                                        </div>
+                                        <InputBase
+                                            autoFocus
+                                            name="searchInput"
+
+                                            placeholder="Search…"
+                                            classes={{
+                                                root: classes.inputRoot,
+                                                input: classes.inputInput,
+                                            }}
+                                            inputProps={{ 'aria-label': 'search' }}
+                                        />
+                                    </div>
+                                </form>
+                            </div>
+                        </SlideDownAnimation>
+
+
+                        {showSmallScreenSearch ?
+
+                            <IconButton
+                                className={classes.smallScreenSearch}
+                                onClick={() => setShowSmallScreenSearch(false)}
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                            :
+                            <IconButton
+                                className={classes.smallScreenSearch}
+                                onClick={() => setShowSmallScreenSearch(true)}
+                            >
+                                <SearchIcon />
+                            </IconButton>
+                        }
+
+                    </Toolbar>
+
+                </AppBar>
+                <Drawer
+                    variant="permanent"
+                    className={clsx(classes.drawer, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open,
+                        }),
+                    }}
+
+
+                >
+                    <div className={classes.toolbar}
+                    >
+                        <IconButton onClick={handleDrawerClose}
+                            style={{
+                                color: '#f5f5f5'
+                            }}
+                        >
+                            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                        </IconButton>
+                    </div>
+                    <List className={classes.list}>
+                        {/* home */}
+                        <ListItem button key="home"
+                            onClick={() => {
+                                history.push('/')
+                            }}
+                        >
+                            <ListItemIcon style={{
+                                color: '#f5f5f5'
+                            }}>
+                                <HomeIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Home" />
+                        </ListItem>
+
+                        <Divider classes={{ root: classes.dividerColor }} />
+
+                        {/* Open cart */}
+                        <ListItem button key="cart"
+                            onClick={() => {
+                                checkLocation()
+                            }}
+                        >
+                            <ListItemIcon style={{
+                                color: '#f5f5f5'
+                            }}>
+                                {props.cart ?
                                     <Badge badgeContent={props.cart.length} color="secondary" >
                                         <ShoppingCartIcon />
                                     </Badge>
                                     :
                                     <ShoppingCartIcon />
-                            }
-                            onClick={() => checkLocation()}
-                        >Cart</Button>
-                    </div>
+                                }
+                            </ListItemIcon>
+                            <ListItemText primary="My Cart" />
+                        </ListItem>
 
-                    <SlideDownAnimation isVisible={showSmallScreenSearch} >
-                        <div className={classes.smallScreenSearchBar} >
-                            <div className={classes.search}>
-                                <div className={classes.searchIcon}>
-                                    <SearchIcon />
-                                </div>
-                                <InputBase
-                                    placeholder="Search…"
-                                    classes={{
-                                        root: classes.inputRoot,
-                                        input: classes.inputInput,
-                                    }}
-                                    inputProps={{ 'aria-label': 'search' }}
-                                />
-                            </div>
-
-                        </div>
-                    </SlideDownAnimation>
-
-
-                    {showSmallScreenSearch ?
-
-                        <IconButton
-                            className={classes.smallScreenSearch}
-                            onClick={() => setShowSmallScreenSearch(false)}
+                        {/* add address button */}
+                        <ListItem button key="address"
+                            onClick={() => {
+                                if (location.pathname.trim() === '/address') { }
+                                else
+                                    history.push('/address')
+                            }}
                         >
-                            <CloseIcon />
-                        </IconButton>
-                        :
-                        <IconButton
-                            className={classes.smallScreenSearch}
-                            onClick={() => setShowSmallScreenSearch(true)}
+
+                            <ListItemIcon style={{
+                                color: '#f5f5f5'
+                            }}>
+                                <AccountBalanceWalletIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Add Address" />
+                        </ListItem>
+
+                        {/*profile  */}
+                        <ListItem button key="profile"
+                            onClick={() => {
+                                props.getUserDetails()
+                                history.push('/profile')
+                            }}
                         >
-                            <SearchIcon />
-                        </IconButton>
+
+                            <ListItemIcon style={{
+                                color: '#f5f5f5'
+                            }}>
+                                <PersonIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Profile" />
+                        </ListItem>
+
+                        <Divider classes={{ root: classes.dividerColor }} />
+
+                        {/* logout user button */}
+                        <ListItem button key="logout"
+                            onClick={() => {
+                                setShowLogout(true)
+                            }}
+                        >
+
+                            <ListItemIcon style={{
+                                color: '#f5f5f5'
+                            }}>
+                                <ExitToAppIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Logout" />
+                        </ListItem>
+
+
+
+                    </List>
+                </Drawer>
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    {props.children}
+                    {
+                        showLogout ?
+                            <Logout handleClose={() => setShowLogout(false)} />
+                            :
+                            null
                     }
-
-                </Toolbar>
-
-            </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
-
-
-            >
-                <div className={classes.toolbar}
-                >
-                    <IconButton onClick={handleDrawerClose}
-                        style={{
-                            color: '#f5f5f5'
-                        }}
-                    >
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </div>
-                <List className={classes.list}>
-                    {/* home */}
-                    <ListItem button key="home"
-                        onClick={() => {
-                            history.push('/')
-                        }}
-                    >
-                        <ListItemIcon style={{
-                            color: '#f5f5f5'
-                        }}>
-                            <HomeIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Home" />
-                    </ListItem>
-
-                    <Divider classes={{ root: classes.dividerColor }} />
-
-                    {/* Open cart */}
-                    <ListItem button key="cart"
-                        onClick={() => {
-                            checkLocation()
-                        }}
-                    >
-                        <ListItemIcon style={{
-                            color: '#f5f5f5'
-                        }}>
-                            {props.cart ?
-                                <Badge badgeContent={props.cart.length} color="secondary" >
-                                    <ShoppingCartIcon />
-                                </Badge>
-                                :
-                                <ShoppingCartIcon />
-                            }
-                        </ListItemIcon>
-                        <ListItemText primary="My Cart" />
-                    </ListItem>
-
-                    {/* add address button */}
-                    <ListItem button key="address"
-                        onClick={() => {
-                            if (location.pathname.trim() === '/address') { }
-                            else
-                                history.push('/address')
-                        }}
-                    >
-
-                        <ListItemIcon style={{
-                            color: '#f5f5f5'
-                        }}>
-                            <AccountBalanceWalletIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Add Address" />
-                    </ListItem>
-
-                    {/*profile  */}
-                    <ListItem button key="profile"
-                        onClick={() => {
-                            props.getUserDetails()
-                            history.push('/profile')
-                        }}
-                    >
-
-                        <ListItemIcon style={{
-                            color: '#f5f5f5'
-                        }}>
-                            <PersonIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Profile" />
-                    </ListItem>
-
-                    <Divider classes={{ root: classes.dividerColor }} />
-
-                    {/* logout user button */}
-                    <ListItem button key="logout"
-                        onClick={() => {
-                            setShowLogout(true)
-                        }}
-                    >
-
-                        <ListItemIcon style={{
-                            color: '#f5f5f5'
-                        }}>
-                            <ExitToAppIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Logout" />
-                    </ListItem>
-
-
-
-                </List>
-            </Drawer>
-            <main className={classes.content}>
-                <div className={classes.toolbar} />
-                {props.children}
-                {
-                    showLogout ?
-                        <Logout handleClose={() => setShowLogout(false)} />
-                        :
-                        null
-                }
-            </main>
-        </div >
+                </main>
+            </div >
+        </>
     )
 }
 
@@ -452,7 +481,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getCartProducts: (cart) => dispatch(getCartProducts(cart)),
-        getUserDetails: () => dispatch(getUserProfileDetails())
+        getUserDetails: () => dispatch(getUserProfileDetails()),
+        handleSearchSubmit: (searchText) => dispatch(getSearchResults(searchText))
     }
 }
 

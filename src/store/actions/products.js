@@ -11,6 +11,10 @@ export const SET_CURRENT_BUY_PRODUCT = 'SET_CURRENT_BUY_PRODUCT'
 export const SET_CART = 'SET_CART'
 export const GET_CART_PRODUCTS_SUCCESS = 'GET_CART_PRODUCTS_SUCCESS'
 
+export const SEARCH_REQUEST = 'SEARCH_REQUEST'
+export const SET_SEARCH_PRODUCTS = 'SET_SEARCH_PRODUCTS'
+export const SEARCH_ERROR = 'SEARCH_ERROR'
+
 const requestProducts = () => {
     return {
         type: GET_PRODUCTS_REQUEST
@@ -51,6 +55,27 @@ const receiveDetailProduct = product => {
     }
 }
 
+const requestSearch = () => {
+    return {
+        type: SEARCH_REQUEST
+    }
+}
+
+const setSearchResults = (searchProducts, searchText) => {
+    return {
+        type: SET_SEARCH_PRODUCTS,
+        payload: {
+            searchProducts,
+            searchText
+        }
+    }
+}
+
+const searchError = () => {
+    return {
+        tyep: SEARCH_ERROR
+    }
+}
 
 export const getProducts = () => dispatch => {
     dispatch(requestProducts())
@@ -127,4 +152,25 @@ export const getDetailProduct = productId => dispatch => {
         .catch(err => {
             dispatch(productsError())
         })
+}
+
+export const getSearchResults = searchText => dispatch => {
+    dispatch(requestSearch())
+    const productsRef = db.collection('products')
+    productsRef
+        .where('product_title_index', 'array-contains', searchText.toUpperCase())
+        .get()
+        .then(snapshot => {
+            let newArr = []
+
+            snapshot.forEach(doc =>
+                newArr.push({ ...doc.data(), ['id']: doc.id })
+            )
+            dispatch(setSearchResults(newArr, searchText))
+        })
+        .catch(err => {
+            dispatch(searchError())
+        })
+
+
 }
