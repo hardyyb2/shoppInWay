@@ -153,7 +153,8 @@ const Details = props => {
 
 
         if (props.currentDetailProduct) {
-            getDetailProduct()
+            if (detailItem[1] !== props.currentDetailProduct.id)
+                getDetailProduct()
             checkInCart(props.currentDetailProduct.id)
         }
     }, [props.cart])
