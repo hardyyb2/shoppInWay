@@ -51,7 +51,7 @@ const SearchProducts = props => {
 
     }, [props.searchText])
     return (
-        <MiniDrawer>
+        <MiniDrawer >
             {
                 props.searchLoading ?
                     (

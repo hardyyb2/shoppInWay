@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Button, makeStyles, TextField } from '@material-ui/core'
 import Skeleton from '@material-ui/lab/Skeleton'
 
-import UserAddress from './UserAddress/UserAddress'
-import MiniDrawer from '../../../UI/MiniDrawer/MiniDrawer'
-import SlideDownAnimation from '../../../UI/SlideDownAnimation/SlideDownAnimation'
+import UserAddress from '../Usercomponents/UserAddressesContainer/UserAddress/UserAddress'
+import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
+import SlideDownAnimation from '../../UI/SlideDownAnimation/SlideDownAnimation'
 
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import {
     getUserAddresses,
     setUserAddresses,
     setCurrentDeliveryAddress,
     removeDeliveryAddress
-} from '../../../store/actions/index'
+} from '../../store/actions/index'
 
 
 const useStyles = makeStyles({
@@ -44,8 +45,8 @@ const useStyles = makeStyles({
 
 })
 
-const UserAddressContainer = props => {
-
+const DeliverAddress = props => {
+    const history = useHistory()
     const classes = useStyles()
     const [setAddress, setSetAddress] = useState(false)
     const [postalCode, setPostalCode] = useState('')
@@ -79,7 +80,10 @@ const UserAddressContainer = props => {
                                 <UserAddress
                                     key={index}
                                     address={address}
-
+                                    handleClick={() => {
+                                        props.setCurrentDeliveryAddress(address)
+                                        history.push('/ordersummary')
+                                    }}
                                     handleDeleteAddress={() => {
                                         props.removeDeliveryAddress(index)
                                     }}
@@ -236,4 +240,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserAddressContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(DeliverAddress)

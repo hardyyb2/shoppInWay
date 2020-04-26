@@ -26,7 +26,7 @@ const BuyNow = props => {
     }
 
     const handleProceed = () => {
-        history.push('/address')
+        history.push('/deliveryaddress')
     }
 
     return (

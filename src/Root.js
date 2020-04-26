@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import HomePage from './components/HomePage'
 import Cart from './components/Cart/Cart'
 import Details from './components/Details/Details'
@@ -10,6 +10,9 @@ import LandingPage from './components/LandingPage/LandingPage'
 import Address from './components/Usercomponents/UserAddressesContainer/UserAddressesContainer'
 import UserProfile from './components/Usercomponents/UserProfile/UserProfile'
 import SearchResults from './components/SearchResults/SearchResults'
+import OrderSummary from './components/Order/OrderSummary/OrderSummary'
+import DeliveryAddress from './components/DeliveryAddress/DeliveryAddress'
+
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -43,6 +46,7 @@ const Root = props => {
                             isVerifying={props.isVerifying}
                         />
 
+
                         <ProtectedRoute
                             exact
                             key='ordersuccess'
@@ -51,7 +55,22 @@ const Root = props => {
                             isAuthenticated={props.isAuthenticated}
                             isVerifying={props.isVerifying}
                         />
-
+                        <ProtectedRoute
+                            exact
+                            key='ordersummary'
+                            path="/ordersummary"
+                            component={OrderSummary}
+                            isAuthenticated={props.isAuthenticated}
+                            isVerifying={props.isVerifying}
+                        />
+                        <ProtectedRoute
+                            exact
+                            key='deliveryaddress'
+                            path='/deliveryaddress'
+                            component={DeliveryAddress}
+                            isAuthenticated={props.isAuthenticated}
+                            isVerifying={props.isVerifying}
+                        />
                         <ProtectedRoute
                             exact
                             key='address'
