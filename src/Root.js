@@ -10,7 +10,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import styled from "styled-components";
 import { Grid } from '@material-ui/core';
 
-import Spinner from './UI/Spinner/Spinner'
+import Spinner1 from './UI/Spinner1/Spinner1'
 
 const HomePage = lazy(() => import('./components/HomePage'))
 const Details = lazy(() => import('./components/Details/Details'))
@@ -37,7 +37,7 @@ const LoadingScreen = (
             alignItems: 'center'
         }}>
 
-        <Spinner />
+        <Spinner1 />
 
 
     </Grid>
