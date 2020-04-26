@@ -1,141 +1,155 @@
 import React, { lazy, Suspense } from 'react'
-import HomePage from './components/HomePage'
-import Cart from './components/Cart/Cart'
-import Details from './components/Details/Details'
-import BuyNow from './components/BuyNow/BuyNow'
-import OrderSuccess from './components/Order/OrderSuccess/OrderSuccess'
-import Signup from './components/Signup/Signup'
-import Login from './components/Login/Login'
-import LandingPage from './components/LandingPage/LandingPage'
-import Address from './components/Usercomponents/UserAddressesContainer/UserAddressesContainer'
-import UserProfile from './components/Usercomponents/UserProfile/UserProfile'
-import SearchResults from './components/SearchResults/SearchResults'
-import OrderSummary from './components/Order/OrderSummary/OrderSummary'
-import DeliveryAddress from './components/DeliveryAddress/DeliveryAddress'
 
 
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import styled from "styled-components";
-import BuyCart from './components/BuyCart/BuyCart'
+import { Grid } from '@material-ui/core';
+
+import Spinner from './UI/Spinner/Spinner'
+
+const HomePage = lazy(() => import('./components/HomePage'))
+const Details = lazy(() => import('./components/Details/Details'))
+const BuyNow = lazy(() => import('./components/BuyNow/BuyNow'))
+const OrderSuccess = lazy(() => import('./components/Order/OrderSuccess/OrderSuccess'))
+const Signup = lazy(() => import('./components/Signup/Signup'))
+const Login = lazy(() => import('./components/Login/Login'))
+const LandingPage = lazy(() => import('./components/LandingPage/LandingPage'))
+const Address = lazy(() => import('./components/Usercomponents/UserAddressesContainer/UserAddressesContainer'))
+const UserProfile = lazy(() => import('./components/Usercomponents/UserProfile/UserProfile'))
+const SearchResults = lazy(() => import('./components/SearchResults/SearchResults'))
+const OrderSummary = lazy(() => import('./components/Order/OrderSummary/OrderSummary'))
+const DeliveryAddress = lazy(() => import('./components/DeliveryAddress/DeliveryAddress'))
+const Cart = lazy(() => import('./components/Cart/Cart'))
+const BuyCart = lazy(() => import('./components/BuyCart/BuyCart'))
 
 
+const LoadingScreen = (
+    <Grid container justify="center"
+        style={{
+            minWidth: '100vw',
+            minHeight: '100vh',
+            color: '#f5f5f5',
+            alignItems: 'center'
+        }}>
+
+        <Spinner />
+
+
+    </Grid>
+)
 
 const Root = props => {
     const { location } = props
 
     return (
         <Wrapper>
-            <TransitionGroup>
-                <CSSTransition
-                    key={location.key}
-                    timeout={{ enter: 200, exit: 200 }}
-                    classNames={'fade'}
-                >
 
-                    <Switch location={location}>
-                        <ProtectedRoute
-                            exact
-                            key='searchResults'
-                            path="/searchResults/:id"
-                            component={SearchResults}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
+            <Switch location={location}>
+                <Suspense fallback={LoadingScreen}>
+                    <ProtectedRoute
+                        exact
+                        key='searchResults'
+                        path="/searchResults/:id"
+                        component={SearchResults}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
 
 
-                        <ProtectedRoute
-                            exact
-                            key='ordersuccess'
-                            path="/ordersuccess"
-                            component={OrderSuccess}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
-                        <ProtectedRoute
-                            exact
-                            key='ordersummary'
-                            path="/ordersummary"
-                            component={OrderSummary}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
-                        <ProtectedRoute
-                            exact
-                            key='deliveryaddress'
-                            path='/deliveryaddress'
-                            component={DeliveryAddress}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
-                        <ProtectedRoute
-                            exact
-                            key='address'
-                            path='/address'
-                            component={Address}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
-                        <ProtectedRoute
-                            exact
-                            key='buynow'
-                            path="/buynow/:id"
-                            component={BuyNow}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
-                        <ProtectedRoute
-                            exact
-                            key='details'
-                            path="/details/:id"
-                            component={Details}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
+                    <ProtectedRoute
+                        exact
+                        key='ordersuccess'
+                        path="/ordersuccess"
+                        component={OrderSuccess}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
+                    <ProtectedRoute
+                        exact
+                        key='ordersummary'
+                        path="/ordersummary"
+                        component={OrderSummary}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
+                    <ProtectedRoute
+                        exact
+                        key='deliveryaddress'
+                        path='/deliveryaddress'
+                        component={DeliveryAddress}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
+                    <ProtectedRoute
+                        exact
+                        key='address'
+                        path='/address'
+                        component={Address}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
+                    <ProtectedRoute
+                        exact
+                        key='buynow'
+                        path="/buynow/:id"
+                        component={BuyNow}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
+                    <ProtectedRoute
+                        exact
+                        key='details'
+                        path="/details/:id"
+                        component={Details}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
 
-                        <ProtectedRoute
-                            exact
-                            key='cart'
-                            path="/cart"
-                            component={Cart}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
+                    <ProtectedRoute
+                        exact
+                        key='cart'
+                        path="/cart"
+                        component={Cart}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
 
-                        <ProtectedRoute
-                            exact
-                            key='profile'
-                            path='/profile'
-                            component={UserProfile}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
+                    <ProtectedRoute
+                        exact
+                        key='profile'
+                        path='/profile'
+                        component={UserProfile}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
 
-                        <ProtectedRoute
-                            exact
-                            key='home'
-                            path='/'
-                            component={HomePage}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
-                        <ProtectedRoute
-                            exact
-                            key='buycart'
-                            path='/buycart'
-                            component={BuyCart}
-                            isAuthenticated={props.isAuthenticated}
-                            isVerifying={props.isVerifying}
-                        />
-                        <Route exact key="index" path='/index' component={LandingPage} />
-                        <Route exact key="login" path='/login' component={Login} />
-                        <Route exact key="signup" path='/signup' component={Signup} />
-                    </Switch>
-                </CSSTransition>
-            </TransitionGroup>
+                    <ProtectedRoute
+                        exact
+                        key='home'
+                        path='/'
+                        component={HomePage}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
+                    <ProtectedRoute
+                        exact
+                        key='buycart'
+                        path='/buycart'
+                        component={BuyCart}
+                        isAuthenticated={props.isAuthenticated}
+                        isVerifying={props.isVerifying}
+                    />
+                    <Route exact key="index" path='/index' component={LandingPage} />
+                    <Route exact key="login" path='/login' component={Login} />
+                    <Route exact key="signup" path='/signup' component={Signup} />
+                </Suspense>
+            </Switch>
+
         </Wrapper>
 
     )
