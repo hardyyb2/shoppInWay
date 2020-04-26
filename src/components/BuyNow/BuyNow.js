@@ -7,9 +7,9 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import CurrentProductCard from './CurrentProductCard/CurrentProductCard'
-
 import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
+import { setFinalProducts } from '../../store/actions/index'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,6 +26,7 @@ const BuyNow = props => {
     }
 
     const handleProceed = () => {
+        props.setFinalProducts([props.currentBuyProduct])
         history.push('/deliveryaddress')
     }
 
@@ -72,11 +73,13 @@ const BuyNow = props => {
 
 const mapStateToProps = state => {
     return {
+        currentBuyProduct: state.products.currentBuyProduct
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        setFinalProducts: (product) => dispatch(setFinalProducts(product))
     }
 }
 

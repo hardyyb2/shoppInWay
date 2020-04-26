@@ -7,9 +7,9 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import CurrentCartProducts from './CurrentCartProducts/CurrentCartProducts'
-
 import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 
+import { getCartProducts, setFinalProducts } from '../../store/actions/index'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,11 +21,17 @@ const BuyCart = props => {
     const classes = useStyles();
     const history = useHistory()
 
+
+    useEffect(() => {
+        props.getCartProducts(props.cart)
+    }, [props.cart])
+
     const removeAndGoBack = () => {
         history.goBack()
     }
 
     const handleProceed = () => {
+        props.setFinalProducts(props.localCartProducts)
         history.push('/deliveryaddress')
     }
 
@@ -78,12 +84,15 @@ const BuyCart = props => {
 
 const mapStateToProps = state => {
     return {
-        localCartProducts: state.products.localCartProducts
+        localCartProducts: state.products.localCartProducts,
+        cart: state.products.cart
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        getCartProducts: (cart) => dispatch(getCartProducts(cart)),
+        setFinalProducts: (products) => dispatch(setFinalProducts(products))
     }
 }
 

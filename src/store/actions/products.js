@@ -15,6 +15,8 @@ export const SEARCH_REQUEST = 'SEARCH_REQUEST'
 export const SET_SEARCH_PRODUCTS = 'SET_SEARCH_PRODUCTS'
 export const SEARCH_ERROR = 'SEARCH_ERROR'
 
+export const SET_FINAL_BUY_PRODUCTS = 'SET_FINAL_BUY_PRODUCTS'
+
 const requestProducts = () => {
     return {
         type: GET_PRODUCTS_REQUEST
@@ -73,7 +75,14 @@ const setSearchResults = (searchProducts, searchText) => {
 
 const searchError = () => {
     return {
-        tyep: SEARCH_ERROR
+        type: SEARCH_ERROR
+    }
+}
+
+const setFinalBuyProducts = products => {
+    return {
+        type: SET_FINAL_BUY_PRODUCTS,
+        products
     }
 }
 
@@ -172,5 +181,10 @@ export const getSearchResults = searchText => dispatch => {
             dispatch(searchError())
         })
 
+
+}
+
+export const setFinalProducts = products => dispatch => {
+    dispatch(setFinalBuyProducts(products))
 
 }

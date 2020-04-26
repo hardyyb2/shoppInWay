@@ -8,7 +8,8 @@ import {
     GET_CART_PRODUCTS_SUCCESS,
     SEARCH_REQUEST,
     SET_SEARCH_PRODUCTS,
-    SEARCH_ERROR
+    SEARCH_ERROR,
+    SET_FINAL_BUY_PRODUCTS
 } from '../actions/products'
 
 const initialState = {
@@ -19,7 +20,8 @@ const initialState = {
     currentDetailProduct: null,
     currentBuyProduct: null,
     searchLoading: false,
-    searchText: ''
+    searchText: '',
+    finalProducts: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -92,6 +94,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchLoading: false
+            }
+        }
+
+        //set final buy products
+        case SET_FINAL_BUY_PRODUCTS: {
+            return {
+                ...state,
+                finalProducts: action.products
             }
         }
 

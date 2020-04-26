@@ -8,11 +8,13 @@ import MiniDrawer from '../UI/MiniDrawer/MiniDrawer'
 import Spinner from '../UI/Spinner/Spinner'
 import HomePageSkeleton from '../UI/HomePageSkeleton/HomePageSkeleton'
 
-import { getProducts } from '../store/actions/index'
+import { getProducts, getUserProfileDetails } from '../store/actions/index'
 
 
 const HomePage = props => {
+
     useEffect(() => {
+        props.getUserProfileDetails()
         if (props.products === null || props.products === [])
             props.getProducts()
     }, [])
@@ -64,7 +66,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        getProducts: () => dispatch(getProducts())
+        getProducts: () => dispatch(getProducts()),
+        getUserProfileDetails: () => dispatch(getUserProfileDetails()),
     }
 }
 

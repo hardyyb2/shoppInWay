@@ -1,59 +1,259 @@
-import React from 'react'
-import { Grid, Paper } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
+import { Grid, Paper, makeStyles, TextField, Button } from '@material-ui/core'
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
+
+import MiniDrawer from '../../../UI/MiniDrawer/MiniDrawer'
+
+import { connect } from 'react-redux'
+import { getUserProfileDetails } from '../../../store/actions/index'
+
+import OrderTable from './OrdersTable/OrderTable'
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        background: '#1f1f1f',
+        width: '80%',
+        margin: 'auto'
+    },
+    paper: {
+        background: '#1f1f2f',
+        color: '#f5f5f5'
+    },
+    row: {
+        padding: '10px',
+        borderBottom: '4px solid #1f1f1f',
+
+    },
+    header: {
+        fontSize: '1.4rem',
+        padding: '15px',
+        textAlign: 'center',
+        outline: '4px solid #1f1f1f',
+        border: '2px solid #f5f5f5'
+    },
+    input: {
+        color: '#f5f5f5',
+        borderBottom: '1px solid #f5f5f5',
+        outline: 'none'
+    },
+    label: {
+        color: '#f5f5f5 !important',
+        outline: 'none'
+    },
+
+}))
 
 const OrderSummary = props => {
+    const classes = useStyles()
+    let today = new Date()
+    const [name, setName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
+    const [payMethod, setPayMethod] = useState('COD')
+
+    let dateToday = `${today.getUTCDate()}-${today.getUTCMonth() + 1}-${today.getUTCFullYear()}`
+
+    useEffect(() => {
+        if (props.profile) {
+            let up = props.profile
+            setName(up.Name || '')
+            setPhone(up.Phone || '')
+            setEmail(up.email || '')
+        } else {
+            props.getUserProfileDetails()
+        }
+    }, [])
+
+    const setDeliveryAddress = () => {
+        let addressString = ''
+        for (let key in props.currentDeliveryAddress) {
+            addressString += `${props.currentDeliveryAddress[key]} , \n`
+        }
+        return addressString
+    }
 
     return (
-        <Grid container>
-            <Paper elevate={6}>
-                <Grid container>
-                    <Grid container direction="row">
-                        <Grid container item xs >
-                            Name
-                        </Grid>
-                        <Grid container item xs >
-                            personName
-                        </Grid>
-                    </Grid>
+        <MiniDrawer>
+            <Grid container className={classes.root} justify="center">
+                <Paper elevate={6} className={classes.paper}>
 
-                    <Grid container direction="row">
-                        <Grid container item xs >
-                            Name
-                        </Grid>
-                        <Grid container item xs >
-                            personName
-                        </Grid>
-                    </Grid>
-
-                    <Grid container direction="row">
-                        <Grid container item xs >
-                            Name
-                        </Grid>
-                        <Grid container item xs >
-                            personName
-                        </Grid>
-                    </Grid>
-
-                    <Grid container direction="row">
-                        <Grid container item xs >
-                            Name
-                        </Grid>
-                        <Grid container item xs >
-                            personName
-                        </Grid>
-                    </Grid>
-
-                    <Grid container>table</Grid>
-                    <Grid container>pay wuth</Grid>
                     <Grid container>
-                        pay button
-                    </Grid>
+                        <Grid container justify="center" className={classes.header}>
+                            Order Summary
+                        </Grid>
+                        <Grid container direction="row" className={classes.row} >
+                            <Grid container item xs justify="center" style={{ alignItems: 'center' }}>
+                                Name
+                             </Grid>
+                            <Grid container item xs justify="center" >
+                                <TextField
+                                    fullWidth
+                                    placeholder="Name..."
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    InputProps={{
+                                        className: classes.input,
+                                    }}
+                                    InputLabelProps={{
+                                        className: classes.label,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
 
+                        <Grid container direction="row" className={classes.row}>
+                            <Grid container item xs justify="center" style={{ alignItems: 'center' }}>
+                                Email
+                             </Grid>
+                            <Grid container item xs justify="center" >
+                                <TextField
+                                    fullWidth
+                                    placeholder="Email..."
+                                    value={email}
+                                    readOnly={true}
+                                    style={{ pointerEvents: 'none' }}
+                                    InputProps={{
+                                        className: classes.input,
+                                    }}
+                                    InputLabelProps={{
+                                        className: classes.label,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+
+
+                        <Grid container direction="row" className={classes.row}>
+                            <Grid container item xs justify="center" style={{ alignItems: 'center' }}>
+                                Phone
+                             </Grid>
+                            <Grid container item xs justify="center" >
+                                <TextField
+                                    fullWidth
+                                    placeholder="Phone..."
+                                    value={phone}
+                                    onChange={e => setName(e.target.value)}
+                                    InputProps={{
+                                        className: classes.input,
+                                    }}
+                                    InputLabelProps={{
+                                        className: classes.label,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container direction="row" className={classes.row}>
+                            <Grid container item xs justify="center" style={{ alignItems: 'center' }}>
+                                Date
+                            </Grid>
+                            <Grid container item xs justify="center" >
+                                <TextField
+                                    fullWidth
+                                    placeholder="Name..."
+                                    value={dateToday}
+                                    readOnly={true}
+                                    style={{ pointerEvents: 'none' }}
+                                    InputProps={{
+                                        className: classes.input,
+                                    }}
+                                    InputLabelProps={{
+                                        className: classes.label,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container direction="row" className={classes.row}>
+                            <Grid container item xs justify="center" style={{ alignItems: 'center' }}>
+                                Address
+                            </Grid>
+                            <Grid container item xs justify="center" >
+                                <TextField
+                                    fullWidth
+                                    placeholder="Name..."
+                                    value={setDeliveryAddress()}
+                                    readOnly={true}
+                                    style={{ pointerEvents: 'none' }}
+                                    InputProps={{
+                                        className: classes.input,
+                                    }}
+                                    InputLabelProps={{
+                                        className: classes.label,
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container style={{ borderTop: '10px solid #1f1f1f' }}>
+                            <OrderTable finalProducts={props.finalProducts} />
+                        </Grid>
+                        <Grid container style={{ borderTop: '10px solid #1f1f1f' }}>
+                            <Grid item xs style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Pay with</Grid>
+                            <Grid item xs container justify="center">
+                                <FormControl component="fieldset">
+                                    <RadioGroup aria-label="method" name="method" value={payMethod} onChange={e => setPayMethod(e.target.value)}>
+                                        <FormControlLabel value="COD" control={<Radio />} label="COD" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
+                </Paper>
+                <Grid container justify="center" style={{ marginTop: '10px' }}>
+                    <Grid item xs container justify="flex-end">
+                        <Button
+                            variant="contained"
+                            style={{
+                                background: '#35425d',
+                                color: '#f5f5f5',
+                                marginRight: '10px',
+                                fontSize: '1.2rem',
+                                textTransform: 'capitalize'
+                            }}
+
+                            onClick={() => { }}
+                        >
+                            Cancel
+                                </Button>
+                    </Grid>
+                    <Grid item xs container justify="flex-start">
+                        <Button
+                            variant="contained"
+                            style={{
+                                background: '#c51162',
+                                color: '#f5f5f5',
+                                fontSize: '1.2rem',
+                                textTransform: 'capitalize'
+                            }}
+                            onClick={() => { }}
+                        >
+                            Own this
+                                </Button>
+                    </Grid>
                 </Grid>
-            </Paper>
-        </Grid>
+
+            </Grid>
+        </MiniDrawer>
     )
 
 }
 
-export default OrderSummary
+const mapStateToProps = state => {
+    return {
+        profile: state.user.profile,
+        finalProducts: state.products.finalProducts,
+        currentDeliveryAddress: state.user.currentDeliveryAddress
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getUserProfileDetails: () => dispatch(getUserProfileDetails())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary)

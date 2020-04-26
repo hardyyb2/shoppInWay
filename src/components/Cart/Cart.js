@@ -6,8 +6,6 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney'
 import Cards from '../Cards/Cards'
 import EmptyCart from '../../assets/images/emptyCart.svg'
 
-import Spinner from '../../UI/Spinner/Spinner'
-
 import MiniDrawer from '../../UI/MiniDrawer/MiniDrawer'
 import HomePageSkeleton from '../../UI/HomePageSkeleton/HomePageSkeleton'
 
@@ -43,8 +41,8 @@ const CartProducts = props => {
     const [notFound, setNotFound] = useState(false)
 
     useEffect(() => {
-
-    }, [])
+        props.getCartProducts(props.cart)
+    }, [props.cart])
 
     return (
         <MiniDrawer>

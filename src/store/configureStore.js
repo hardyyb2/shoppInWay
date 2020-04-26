@@ -10,7 +10,7 @@ import rootReducer from "./reducers";
 const persistConfig = {
     key: 'products',
     storage: storage,
-    whitelist: ['products', 'auth'] // which reducer want to store
+    whitelist: ['products', 'auth', 'user'] // which reducer want to store
 };
 const pReducer = persistReducer(persistConfig, rootReducer);
 
