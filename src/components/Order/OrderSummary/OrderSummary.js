@@ -4,13 +4,14 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 
 
 import MiniDrawer from '../../../UI/MiniDrawer/MiniDrawer'
 
 import { connect } from 'react-redux'
-import { getUserProfileDetails } from '../../../store/actions/index'
+import { useHistory } from 'react-router-dom'
+
+import { getUserProfileDetails, setOrder } from '../../../store/actions/index'
 
 import OrderTable from './OrdersTable/OrderTable'
 
@@ -50,11 +51,13 @@ const useStyles = makeStyles(theme => ({
 
 const OrderSummary = props => {
     const classes = useStyles()
+    const history = useHistory()
     let today = new Date()
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
     const [email, setEmail] = useState('')
     const [payMethod, setPayMethod] = useState('COD')
+    const [total, setTotal] = useState(0)
 
     let dateToday = `${today.getUTCDate()}-${today.getUTCMonth() + 1}-${today.getUTCFullYear()}`
 
@@ -69,12 +72,35 @@ const OrderSummary = props => {
         }
     }, [])
 
+    const handleOwnThis = () => {
+        let order = {
+            name: name || '',
+            phone: phone || '',
+            email: email || '',
+            address: setDeliveryAddress() || '',
+            products: props.finalProducts.map(product => product.id),
+            total: calcTotal() || '',
+            paymentMethod: payMethod || ''
+        }
+
+        props.setOrder(order)
+        history.replace('/ordersuccess')
+    }
+
     const setDeliveryAddress = () => {
         let addressString = ''
         for (let key in props.currentDeliveryAddress) {
             addressString += `${props.currentDeliveryAddress[key]} , \n`
         }
         return addressString
+    }
+
+    const calcTotal = () => {
+        let totalPrice = 0
+        props.finalProducts.map((product, index) => {
+            totalPrice += product.product_price
+        })
+        return totalPrice
     }
 
     return (
@@ -188,7 +214,8 @@ const OrderSummary = props => {
                             </Grid>
                         </Grid>
                         <Grid container style={{ borderTop: '10px solid #1f1f1f' }}>
-                            <OrderTable finalProducts={props.finalProducts} />
+                            <OrderTable
+                                finalProducts={props.finalProducts} />
                         </Grid>
                         <Grid container style={{ borderTop: '10px solid #1f1f1f' }}>
                             <Grid item xs style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Pay with</Grid>
@@ -215,7 +242,7 @@ const OrderSummary = props => {
                                 textTransform: 'capitalize'
                             }}
 
-                            onClick={() => { }}
+                            onClick={() => { history.replace('/') }}
                         >
                             Cancel
                                 </Button>
@@ -229,7 +256,7 @@ const OrderSummary = props => {
                                 fontSize: '1.2rem',
                                 textTransform: 'capitalize'
                             }}
-                            onClick={() => { }}
+                            onClick={handleOwnThis}
                         >
                             Own this
                                 </Button>
@@ -252,7 +279,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUserProfileDetails: () => dispatch(getUserProfileDetails())
+        getUserProfileDetails: () => dispatch(getUserProfileDetails()),
+        setOrder: order => dispatch(setOrder(order))
     }
 }
 

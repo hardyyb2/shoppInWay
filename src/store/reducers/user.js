@@ -5,7 +5,9 @@ import {
     RECEIVE_USER_ADDRESSES,
     USER_ADDRESSES_ERROR,
     SET_CURRENT_DELIVERY_ADDRESS,
-    SET_LOADING_PERCENT
+    SET_LOADING_PERCENT,
+    SAVED_ORDERS,
+    ORDER_SAVE_ERROR
 }
     from '../actions/index'
 
@@ -123,6 +125,21 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loadingPercent: action.payload.percent,
                 load: action.payload.load
+            }
+        }
+
+        //order save
+        case SAVED_ORDERS: {
+            return {
+                ...state,
+                loading: false
+            }
+        }
+
+        case ORDER_SAVE_ERROR: {
+            return {
+                ...state,
+                loading: false
             }
         }
         default:

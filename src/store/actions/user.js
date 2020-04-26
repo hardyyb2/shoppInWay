@@ -11,6 +11,9 @@ export const SET_CURRENT_DELIVERY_ADDRESS = 'SET_CURRENT_DELIVERY_ADDRESS'
 
 export const SET_LOADING_PERCENT = 'SET_LOADING_PERCENT'
 
+export const SAVED_ORDERS = 'SAVED_ORDERS'
+export const ORDER_SAVE_ERROR = 'ORDER_SAVE_ERROR'
+
 const getUserUid = () => {
     let useruid
     if (store().getState().auth.user.user) {
@@ -53,6 +56,19 @@ const setLoadingPercent = (percent, load) => {
             percent,
             load
         }
+    }
+}
+
+
+const savedOrders = () => {
+    return {
+        type: SAVED_ORDERS
+    }
+}
+
+const orderError = () => {
+    return {
+        type: ORDER_SAVE_ERROR
     }
 }
 
@@ -189,4 +205,18 @@ export const setImageUpload = (image) => dispatch => {
 
         }
     )
+}
+
+export const setOrder = order => async (dispatch) => {
+    dispatch(getAddresses())
+
+    let ordersRef = db.collection('users').doc(getUserUid())
+    await ordersRef.update({
+        orders: firebase1.firestore.FieldValue.arrayUnion(order)
+    }).then(() => {
+        dispatch(savedOrders())
+    }).catch(err => {
+        dispatch(orderError())
+    })
+
 }

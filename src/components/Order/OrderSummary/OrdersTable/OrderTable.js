@@ -28,7 +28,6 @@ const Ordertable = props => {
                         totalPrice += product.product_price
                         return < Orderrow key={index} productName={product.product_title} productPrice={product.product_price} />
                     })
-
                     :
                     null
             }

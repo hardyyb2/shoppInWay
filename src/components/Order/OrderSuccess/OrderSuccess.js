@@ -5,8 +5,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import PurchaseSuccess from '../../../assets/images/purchaseSuccessful.svg'
+import MiniDrawer from '../../../UI/MiniDrawer/MiniDrawer'
+import Spinner from '../../../UI/Spinner1/Spinner1'
 
 import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -63,49 +66,70 @@ const OrderSuccess = props => {
     const history = useHistory()
 
     return (
-        <div className={classes.root}>
-            <Paper className={classes.paper}>
-                <Grid container spacing={2} >
-                    <Grid item style={{ background: '#1a1a1a', margin: 'auto' }}>
-                        <ButtonBase className={classes.image}>
-                            <img className={classes.img} alt="success" src={PurchaseSuccess} />
-                        </ButtonBase>
-                    </Grid>
-                    <Grid item xs={12} sm container>
-                        <Grid item xs container direction="column" spacing={2} justify="center">
-                            <Grid item container justify="center" style={{ alignItems: 'center' }}>
-                                <Typography gutterBottom variant="subtitle1" className={classes.title}>
-                                    Thank You
+        <MiniDrawer>
+            {
+                !props.loading ?
+                    (
+                        <div className={classes.root}>
+                            <Paper className={classes.paper}>
+                                <Grid container spacing={2} >
+                                    <Grid item style={{ background: '#1a1a1a', margin: 'auto' }}>
+                                        <ButtonBase className={classes.image}>
+                                            <img className={classes.img} alt="success" src={PurchaseSuccess} />
+                                        </ButtonBase>
+                                    </Grid>
+                                    <Grid item xs={12} sm container>
+                                        <Grid item xs container direction="column" spacing={2} justify="center">
+                                            <Grid item container justify="center" style={{ alignItems: 'center' }}>
+                                                <Typography gutterBottom variant="subtitle1" className={classes.title}>
+                                                    Thank You
                                  </Typography>
-                                <Typography variant="body2" gutterBottom className={classes.subtitle}>
-                                    Your Purchase Was Successfull
+                                                <Typography variant="body2" gutterBottom className={classes.subtitle}>
+                                                    Your Purchase Was Successfull
                                  </Typography>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Grid item container spacing={2} justify="center" style={{ marginTop: '20px' }}>
-                    <Button
-                        aria-label="add to favorites"
-                        variant="contained"
-                        style={{
-                            fontWeight: 'bold',
-                            padding: '10px',
-                            background: '#c51162',
-                            color: 'rgba(255,255,255,0.9)'
-                        }}
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid item container spacing={2} justify="center" style={{ marginTop: '20px' }}>
+                                    <Button
+                                        aria-label="add to favorites"
+                                        variant="contained"
+                                        style={{
+                                            fontWeight: 'bold',
+                                            padding: '10px',
+                                            background: '#c51162',
+                                            color: 'rgba(255,255,255,0.9)'
+                                        }}
 
-                        onClick={() => {
-                            history.replace('/')
-                        }}
-                        fullWidth
-                    >
-                        Find More Amazing Products
+                                        onClick={() => {
+                                            history.replace('/')
+                                        }}
+                                        fullWidth
+                                    >
+                                        Find More Amazing Products
                     </Button>
-                </Grid>
-            </Paper>
-        </div>
+                                </Grid>
+                            </Paper>
+                        </div>
+                    )
+                    :
+                    <Grid container className={classes.root} justify="center" direction="column">
+
+                        <Spinner />
+                        <Grid item style={{ color: '#f5f5f5', fontSize: '1.6rem' }}>
+                            Saving....
+                         </Grid>
+                    </Grid>
+            }
+        </MiniDrawer>
     )
 }
 
-export default OrderSuccess
+const mapStateToProps = state => {
+    return {
+        loading: state.user.loading
+    }
+}
+
+export default connect(mapStateToProps)(OrderSuccess)
