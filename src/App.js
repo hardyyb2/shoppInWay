@@ -9,7 +9,7 @@ import Root from './Root'
 
 const App = props => {
   return (
-    <div className="App" style={{ background: '#1f1f1f', minHeight: '100vh' }}>
+    <div className="App" style={{ overflow: 'hidden', background: '#1f1f1f', minHeight: '100vh' }}>
       <BrowserRouter>
         <Root />
       </BrowserRouter>

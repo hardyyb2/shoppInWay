@@ -154,13 +154,11 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     appbarCart: {
-        ['@media (max-width:800px)']: {
+        ['@media (max-width:900px)']: {
             display: 'none'
         }
     },
     smallScreenSearch: {
-        position: 'absolute',
-        right: '10px',
         color: '#f5f5f5',
         fontWeight: 'bolder',
         ['@media (min-width:660px)']: {
@@ -250,8 +248,9 @@ const MiniDrawer = props => {
                         </IconButton>
                         <Typography variant="h6" noWrap
                             style={{
-                                position: 'absolute',
-                                left: '40%',
+                                // position: 'absolute',
+                                // left: '40%',
+                                margin: 'auto',
                                 cursor: 'pointer'
                             }}
                             onClick={() => history.push('/')}
@@ -269,9 +268,10 @@ const MiniDrawer = props => {
                                         <SearchIcon />
                                     </div>
                                     <InputBase
-                                        autoFocus
+
                                         name="nameInput"
                                         placeholder="Search…"
+                                        onFocus={() => setOpen(false)}
                                         classes={{
                                             root: classes.inputRoot,
                                             input: classes.inputInput,
@@ -326,14 +326,20 @@ const MiniDrawer = props => {
 
                             <IconButton
                                 className={classes.smallScreenSearch}
-                                onClick={() => setShowSmallScreenSearch(false)}
+                                onClick={() => {
+                                    setOpen(false)
+                                    setShowSmallScreenSearch(false)
+                                }}
                             >
                                 <CloseIcon />
                             </IconButton>
                             :
                             <IconButton
                                 className={classes.smallScreenSearch}
-                                onClick={() => setShowSmallScreenSearch(true)}
+                                onClick={() => {
+                                    setOpen(false)
+                                    setShowSmallScreenSearch(true)
+                                }}
                             >
                                 <SearchIcon />
                             </IconButton>
