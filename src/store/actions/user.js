@@ -16,9 +16,13 @@ export const ORDER_SAVE_ERROR = 'ORDER_SAVE_ERROR'
 
 const getUserUid = () => {
     let useruid
-    if (store().getState().auth.user.user) {
+
+    if (store().getState().auth.user.uid) {
+        useruid = store().getState().auth.user.uid
+    } else if (store().getState().auth.user.user) {
         useruid = store().getState().auth.user.user.uid
-    } else {
+    }
+    else {
         useruid = JSON.parse(localStorage.getItem('useruid'))
     }
     return useruid
@@ -81,7 +85,7 @@ export const setCurrentDeliveryAddress = address => {
 
 
 export const getUserAddresses = () => dispatch => {
-
+    console.log('reaching here')
     dispatch(getAddresses())
     //change this
     db
@@ -89,7 +93,6 @@ export const getUserAddresses = () => dispatch => {
         .doc(getUserUid())
         .get()
         .then(snapshot => {
-            console.log('these are addresses ', snapshot.data())
             dispatch(receievUserAddresses(snapshot.data().address))
         })
         .catch(err => {
@@ -128,6 +131,7 @@ export const removeDeliveryAddress = (addressIndex) => (dispatch, getState) => {
 }
 
 export const getUserProfileDetails = () => dispatch => {
+    console.log(getUserUid())
     dispatch(getAddresses())
     db
         .collection('users')
