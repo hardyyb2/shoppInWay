@@ -125,8 +125,9 @@ export const logoutUser = () => dispatch => {
         .auth()
         .signOut()
         .then(() => {
-            localStorage.removeItem('useruid')
-            localStorage.removeItem('persist:products')
+            // localStorage.removeItem('useruid')
+            // localStorage.removeItem('persist:products')
+            localStorage.clear()
             dispatch(receiveLogout())
         })
         .catch(error => {
